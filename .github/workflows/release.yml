@@ -20,6 +20,22 @@ jobs:
       - name: Set APP_VERSION env
         run: echo APP_VERSION=$(echo ${GITHUB_REF} | rev | cut -d'/' -f 1 | rev ) >> ${GITHUB_ENV}
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Prepare Vue App
+        run: |
+          cd internal/web
+          corepack enable && corepack prepare
+          pnpm i
+
+      - name: Build Vue App
+        run: |
+          cd internal/web
+          pnpm run build
+
       - uses: wangyoucao577/go-release-action@v1.32
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
