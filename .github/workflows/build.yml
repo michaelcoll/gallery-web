@@ -17,11 +17,27 @@ jobs:
         with:
           go-version: 1.18
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Prepare Vue App
+        run: |
+          cd internal/web
+          corepack enable && corepack prepare
+          pnpm i
+
+      - name: Build Vue App
+        run: |
+          cd internal/web
+          pnpm run build
+
       - name: Install dependencies
         run: |
           go get .
 
-      - name: Build
+      - name: Build Go App
         run: go build -v ./...
 
       - name: Test
