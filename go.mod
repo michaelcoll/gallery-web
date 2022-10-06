@@ -5,9 +5,9 @@ go 1.18
 require (
 	github.com/fatih/color v1.13.0
 	github.com/gin-gonic/gin v1.8.1
+	github.com/michaelcoll/gallery-proto v0.2.0
 	github.com/spf13/cobra v1.5.0
 	google.golang.org/grpc v1.49.0
-	google.golang.org/protobuf v1.28.1
 )
 
 require (
@@ -32,5 +32,6 @@ require (
 	golang.org/x/sys v0.0.0-20220928140112-f11e5e49a4ec // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20220829175752-36a9c930ecbf // indirect
+	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

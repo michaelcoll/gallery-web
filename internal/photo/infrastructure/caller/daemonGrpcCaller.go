@@ -26,8 +26,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
+	photov1 "github.com/michaelcoll/gallery-proto/gen/proto/go/photo/v1"
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
-	pb "github.com/michaelcoll/gallery-web/proto"
 )
 
 const (
@@ -50,7 +50,7 @@ func (c *DaemonGrpcCaller) List() ([]*model.Photo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	photoResponse, err := client.GetPhotos(ctx, &pb.ListFilter{})
+	photoResponse, err := client.GetPhotos(ctx, &photov1.GetPhotosRequest{})
 	if err != nil {
 		return nil, err
 	}
@@ -72,14 +72,14 @@ func (c *DaemonGrpcCaller) GetByHash(hash string) (*model.Photo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	photo, err := client.GetByHash(ctx, &pb.HashFilter{
+	resp, err := client.GetByHash(ctx, &photov1.GetByHashRequest{
 		Hash: hash,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return toDomain(photo), nil
+	return toDomain(resp.Photo), nil
 }
 
 func (c *DaemonGrpcCaller) ContentByHash(hash string) ([]byte, error) {
@@ -89,7 +89,7 @@ func (c *DaemonGrpcCaller) ContentByHash(hash string) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	stream, err := client.ContentByHash(ctx, &pb.HashFilter{
+	stream, err := client.ContentByHash(ctx, &photov1.ContentByHashRequest{
 		Hash: hash,
 	})
 	if err != nil {
@@ -112,7 +112,7 @@ func (c *DaemonGrpcCaller) ContentByHash(hash string) ([]byte, error) {
 	return nil, nil
 }
 
-func createClient(daemonHost string, daemonPort int) (pb.GalleryClient, *grpc.ClientConn) {
+func createClient(daemonHost string, daemonPort int) (photov1.PhotoServiceClient, *grpc.ClientConn) {
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
@@ -122,7 +122,7 @@ func createClient(daemonHost string, daemonPort int) (pb.GalleryClient, *grpc.Cl
 	if err != nil {
 		log.Fatalf("fail to contact the daemon : %v", err)
 	}
-	client := pb.NewGalleryClient(conn)
+	client := photov1.NewPhotoServiceClient(conn)
 
 	return client, conn
 }
