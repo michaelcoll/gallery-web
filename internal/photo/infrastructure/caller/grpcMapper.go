@@ -17,11 +17,11 @@
 package caller
 
 import (
+	photov1 "github.com/michaelcoll/gallery-proto/gen/proto/go/photo/v1"
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
-	pb "github.com/michaelcoll/gallery-web/proto"
 )
 
-func toDomain(grpc *pb.Photo) *model.Photo {
+func toDomain(grpc *photov1.Photo) *model.Photo {
 	return &model.Photo{
 		Hash: grpc.Hash,
 		Path: grpc.Path,
