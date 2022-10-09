@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package service
+package model
 
-import "github.com/michaelcoll/gallery-web/internal/photo/domain/model"
+import (
+	"time"
 
-type DaemonCaller interface {
-	List() ([]*model.Photo, error)
-	GetByHash(string) (*model.Photo, error)
-	ContentByHash(hash string) ([]byte, error)
+	"github.com/google/uuid"
+)
+
+// Daemon a representation of a daemon
+type Daemon struct {
+	Id       uuid.UUID
+	Name     string
+	Hostname string
+	Port     int
+	Version  string
+	Alive    bool
+	NextSee  time.Time
 }

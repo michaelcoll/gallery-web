@@ -42,4 +42,4 @@ jobs:
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
           binary_name: "gallery-web"
-          ldflags: -X "github.com/michaelcoll/gallery-web/cmd.version=${{ env.APP_VERSION }}"
+          ldflags: -X "github.com/michaelcoll/gallery-web/cmd.version=${{ env.APP_VERSION }}" -s -w

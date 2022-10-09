@@ -23,13 +23,17 @@ import (
 )
 
 type Module struct {
-	s service.PhotoService
-	c presentation.PhotoController
+	s          service.PhotoService
+	photoCtrl  presentation.PhotoController
+	daemonCtrl presentation.DaemonController
 }
 
-func (m Module) GetController() *presentation.PhotoController {
+func (m Module) GetPhotoController() *presentation.PhotoController {
+	return &m.photoCtrl
+}
 
-	return &m.c
+func (m Module) GetDaemonController() *presentation.DaemonController {
+	return &m.daemonCtrl
 }
 
 func (m Module) GetService() *service.PhotoService {
@@ -37,6 +41,13 @@ func (m Module) GetService() *service.PhotoService {
 }
 
 func New() Module {
-	s := service.New(caller.New())
-	return Module{s: s, c: presentation.New(s)}
+	photoServiceCaller := caller.New()
+	photoService := service.NewPhotoService(photoServiceCaller)
+	daemonService := service.NewDaemonService(photoServiceCaller)
+
+	return Module{
+		s:          photoService,
+		photoCtrl:  presentation.NewPhotoController(photoService),
+		daemonCtrl: presentation.NewDaemonController(&daemonService),
+	}
 }

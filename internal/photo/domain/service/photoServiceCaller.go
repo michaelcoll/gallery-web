@@ -22,22 +22,9 @@ import (
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
 )
 
-type PhotoService struct {
-	c PhotoServiceCaller
-}
-
-func NewPhotoService(c PhotoServiceCaller) PhotoService {
-	return PhotoService{c: c}
-}
-
-func (s *PhotoService) List(ctx context.Context) ([]*model.Photo, error) {
-	return s.c.List(ctx, model.Daemon{Hostname: "localhost", Port: 9000})
-}
-
-func (s *PhotoService) GetByHash(ctx context.Context, hash string) (*model.Photo, error) {
-	return s.c.GetByHash(ctx, model.Daemon{Hostname: "localhost", Port: 9000}, hash)
-}
-
-func (s *PhotoService) ContentByHash(ctx context.Context, hash string) ([]byte, error) {
-	return s.c.ContentByHash(ctx, model.Daemon{Hostname: "localhost", Port: 9000}, hash)
+type PhotoServiceCaller interface {
+	List(ctx context.Context, d model.Daemon) ([]*model.Photo, error)
+	GetByHash(ctx context.Context, d model.Daemon, hash string) (*model.Photo, error)
+	Exists(ctx context.Context, d model.Daemon, hash string) (bool, error)
+	ContentByHash(ctx context.Context, d model.Daemon, hash string) ([]byte, error)
 }
