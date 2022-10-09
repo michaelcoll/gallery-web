@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -30,25 +29,20 @@ import (
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
 )
 
-const (
-	daemonHost = "localhost"
-	daemonPort = 9000
-)
-
-type DaemonGrpcCaller struct {
+type PhotoServiceGrpcCaller struct {
 }
 
-func New() *DaemonGrpcCaller {
-	return &DaemonGrpcCaller{}
+func New() *PhotoServiceGrpcCaller {
+	return &PhotoServiceGrpcCaller{}
 }
 
-func (c *DaemonGrpcCaller) List() ([]*model.Photo, error) {
+func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d model.Daemon) ([]*model.Photo, error) {
 
-	client, conn := createClient(daemonHost, daemonPort)
+	client, conn, err := createClient(d)
+	if err != nil {
+		return nil, err
+	}
 	defer closeConnection(conn)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
 
 	photoResponse, err := client.GetPhotos(ctx, &photov1.GetPhotosRequest{})
 	if err != nil {
@@ -64,13 +58,13 @@ func (c *DaemonGrpcCaller) List() ([]*model.Photo, error) {
 	return photos, nil
 }
 
-func (c *DaemonGrpcCaller) GetByHash(hash string) (*model.Photo, error) {
+func (c *PhotoServiceGrpcCaller) GetByHash(ctx context.Context, d model.Daemon, hash string) (*model.Photo, error) {
 
-	client, conn := createClient(daemonHost, daemonPort)
+	client, conn, err := createClient(d)
+	if err != nil {
+		return nil, err
+	}
 	defer closeConnection(conn)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
 
 	resp, err := client.GetByHash(ctx, &photov1.GetByHashRequest{
 		Hash: hash,
@@ -82,12 +76,28 @@ func (c *DaemonGrpcCaller) GetByHash(hash string) (*model.Photo, error) {
 	return toDomain(resp.Photo), nil
 }
 
-func (c *DaemonGrpcCaller) ContentByHash(hash string) ([]byte, error) {
-	client, conn := createClient(daemonHost, daemonPort)
+func (c *PhotoServiceGrpcCaller) Exists(ctx context.Context, d model.Daemon, hash string) (bool, error) {
+
+	client, conn, err := createClient(d)
+	if err != nil {
+		return false, err
+	}
 	defer closeConnection(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+	resp, _ := client.ExistsByHash(ctx, &photov1.ExistsByHashRequest{
+		Hash: hash,
+	})
+
+	return resp.Exists, err
+}
+
+func (c *PhotoServiceGrpcCaller) ContentByHash(ctx context.Context, d model.Daemon, hash string) ([]byte, error) {
+
+	client, conn, err := createClient(d)
+	if err != nil {
+		return nil, err
+	}
+	defer closeConnection(conn)
 
 	stream, err := client.ContentByHash(ctx, &photov1.ContentByHashRequest{
 		Hash: hash,
@@ -112,19 +122,19 @@ func (c *DaemonGrpcCaller) ContentByHash(hash string) ([]byte, error) {
 	return nil, nil
 }
 
-func createClient(daemonHost string, daemonPort int) (photov1.PhotoServiceClient, *grpc.ClientConn) {
+func createClient(d model.Daemon) (photov1.PhotoServiceClient, *grpc.ClientConn, error) {
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
-	daemonAddr := fmt.Sprintf("%s:%d", daemonHost, daemonPort)
+	daemonAddr := fmt.Sprintf("%s:%d", d.Hostname, d.Port)
 
 	conn, err := grpc.Dial(daemonAddr, opts...)
 	if err != nil {
-		log.Fatalf("fail to contact the daemon : %v", err)
+		return nil, nil, err
 	}
 	client := photov1.NewPhotoServiceClient(conn)
 
-	return client, conn
+	return client, conn, nil
 }
 
 func closeConnection(conn *grpc.ClientConn) {

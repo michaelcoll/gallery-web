@@ -28,7 +28,9 @@ var serveCmd = &cobra.Command{
 	Short: "Starts the server",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		photo.New().GetController().Serve()
+		module := photo.New()
+		go module.GetDaemonController().Serve()
+		module.GetPhotoController().Serve()
 	},
 }
 

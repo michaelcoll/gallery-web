@@ -26,13 +26,13 @@ import (
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/service"
 )
 
-const port = ":8080"
+const apiPort = ":8080"
 
 type PhotoController struct {
 	s service.PhotoService
 }
 
-func New(s service.PhotoService) PhotoController {
+func NewPhotoController(s service.PhotoService) PhotoController {
 	return PhotoController{s: s}
 }
 
@@ -49,15 +49,15 @@ func (c *PhotoController) Serve() {
 	router.GET("/api/media/:hash/content", c.contentByHash)
 
 	// Listen and serve on 0.0.0.0:8080
-	fmt.Printf("Listening on 0.0.0.0%s\n", color.GreenString(port))
-	err := router.Run(port)
+	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✅"), color.GreenString(apiPort))
+	err := router.Run(apiPort)
 	if err != nil {
 		log.Fatalf("Error starting server : %v", err)
 	}
 }
 
 func (c *PhotoController) list(ctx *gin.Context) {
-	photos, err := c.s.List()
+	photos, err := c.s.List(ctx.Request.Context())
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Can't obtain the media list !"})
 	}
@@ -68,7 +68,7 @@ func (c *PhotoController) list(ctx *gin.Context) {
 func (c *PhotoController) getByHash(ctx *gin.Context) {
 	hash := ctx.Param("hash")
 
-	photo, err := c.s.GetByHash(hash)
+	photo, err := c.s.GetByHash(ctx.Request.Context(), hash)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Can't obtain the media !"})
 	}
@@ -79,7 +79,7 @@ func (c *PhotoController) getByHash(ctx *gin.Context) {
 func (c *PhotoController) contentByHash(ctx *gin.Context) {
 	hash := ctx.Param("hash")
 
-	photoContent, err := c.s.ContentByHash(hash)
+	photoContent, err := c.s.ContentByHash(ctx.Request.Context(), hash)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Can't obtain the media !"})
 	}

@@ -14,30 +14,25 @@
  * limitations under the License.
  */
 
-package service
+package presentation
 
 import (
-	"context"
+	"time"
 
+	"github.com/google/uuid"
+
+	daemonv1 "github.com/michaelcoll/gallery-proto/gen/proto/go/daemon/v1"
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
 )
 
-type PhotoService struct {
-	c PhotoServiceCaller
-}
-
-func NewPhotoService(c PhotoServiceCaller) PhotoService {
-	return PhotoService{c: c}
-}
-
-func (s *PhotoService) List(ctx context.Context) ([]*model.Photo, error) {
-	return s.c.List(ctx, model.Daemon{Hostname: "localhost", Port: 9000})
-}
-
-func (s *PhotoService) GetByHash(ctx context.Context, hash string) (*model.Photo, error) {
-	return s.c.GetByHash(ctx, model.Daemon{Hostname: "localhost", Port: 9000}, hash)
-}
-
-func (s *PhotoService) ContentByHash(ctx context.Context, hash string) ([]byte, error) {
-	return s.c.ContentByHash(ctx, model.Daemon{Hostname: "localhost", Port: 9000}, hash)
+func toDomain(request *daemonv1.RegisterRequest) *model.Daemon {
+	return &model.Daemon{
+		Id:       uuid.New(),
+		Name:     request.DaemonName,
+		Hostname: request.DaemonHost,
+		Port:     int(request.DaemonPort),
+		Version:  request.DaemonVersion,
+		Alive:    true,
+		NextSee:  time.Now(),
+	}
 }
