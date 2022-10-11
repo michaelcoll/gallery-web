@@ -20,19 +20,24 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"strconv"
 	"sync"
 	"time"
 
 	"github.com/fatih/color"
 	"github.com/google/uuid"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
 )
 
-const expiresIn = 2
+const (
+	// number of seconds after a daemon is treated as not alive
+	expiresIn = 3
+	// number of seconds that will be added to the expiresIn value to calculate if a daemon is alive or not
+	delta = 2
+)
 
 type DaemonService struct {
 	c       PhotoServiceCaller
@@ -89,13 +94,13 @@ func (s *DaemonService) activate(d *model.Daemon) {
 			color.GreenString(d.Name))
 	}
 	s.mu.Lock()
-	d.NextSee = time.Now().Add(time.Duration(expiresIn) * time.Second)
+	d.NextSee = time.Now().Add(time.Duration(expiresIn+delta) * time.Second)
 	d.Alive = true
 	s.mu.Unlock()
 }
 
 func (s *DaemonService) validateDaemonConnection(d *model.Daemon) bool {
-	_, err := s.c.Exists(context.Background(), *d, "0")
+	_, err := s.c.Exists(context.Background(), d, "0")
 	if err != nil {
 		return false
 	}
@@ -119,5 +124,30 @@ func (s *DaemonService) Watch() {
 		}
 
 		time.Sleep(1 * time.Second)
+	}
+}
+
+func (s *DaemonService) List() []*model.Daemon {
+	daemons := make([]*model.Daemon, len(s.daemons))
+
+	i := 0
+	for _, daemon := range s.daemons {
+		daemons[i] = daemon
+		i++
+	}
+
+	return daemons
+}
+
+func (s *DaemonService) ById(id uuid.UUID) (*model.Daemon, error) {
+	daemon, exists := s.daemons[id]
+
+	if exists {
+		if !daemon.Alive {
+			return nil, status.Error(codes.NotFound, "daemon not active")
+		}
+		return daemon, nil
+	} else {
+		return nil, status.Error(codes.NotFound, "daemon not found")
 	}
 }

@@ -23,17 +23,23 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/service"
 )
 
 const apiPort = ":8080"
 
 type PhotoController struct {
-	s service.PhotoService
+	photoService  *service.PhotoService
+	daemonService *service.DaemonService
 }
 
-func NewPhotoController(s service.PhotoService) PhotoController {
-	return PhotoController{s: s}
+func NewPhotoController(s *service.PhotoService, d *service.DaemonService) PhotoController {
+	return PhotoController{photoService: s, daemonService: d}
 }
 
 func (c *PhotoController) Serve() {
@@ -44,9 +50,11 @@ func (c *PhotoController) Serve() {
 
 	serveStatic(router)
 
-	router.GET("/api/media", c.list)
-	router.GET("/api/media/:hash", c.getByHash)
-	router.GET("/api/media/:hash/content", c.contentByHash)
+	router.GET("/api/daemon", c.daemonList)
+	router.GET("/api/daemon/:id", c.daemonById)
+	router.GET("/api/daemon/:id/media", c.mediaList)
+	router.GET("/api/daemon/:id/media/:hash", c.getByHash)
+	router.GET("/api/daemon/:id/media/:hash/content", c.contentByHash)
 
 	// Listen and serve on 0.0.0.0:8080
 	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))
@@ -56,33 +64,81 @@ func (c *PhotoController) Serve() {
 	}
 }
 
-func (c *PhotoController) list(ctx *gin.Context) {
-	photos, err := c.s.List(ctx.Request.Context())
+func (c *PhotoController) daemonList(ctx *gin.Context) {
+	list := c.daemonService.List()
+
+	ctx.JSON(http.StatusOK, list)
+}
+
+func (c *PhotoController) daemonById(ctx *gin.Context) {
+	daemon, err := c.getDaemonById(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Can't obtain the media list !"})
+		handleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, daemon)
+}
+
+func (c *PhotoController) mediaList(ctx *gin.Context) {
+	daemon, err := c.getDaemonById(ctx)
+	if err != nil {
+		handleError(ctx, err)
+		return
+	}
+
+	photos, err := c.photoService.List(ctx.Request.Context(), daemon)
+	if err != nil {
+		handleError(ctx, err)
+		return
 	}
 
 	ctx.JSON(http.StatusOK, photos)
 }
 
 func (c *PhotoController) getByHash(ctx *gin.Context) {
-	hash := ctx.Param("hash")
-
-	photo, err := c.s.GetByHash(ctx.Request.Context(), hash)
+	daemon, err := c.getDaemonById(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Can't obtain the media !"})
+		handleError(ctx, err)
+		return
+	}
+
+	hash := ctx.Param("hash")
+	photo, err := c.photoService.GetByHash(ctx.Request.Context(), daemon, hash)
+	if err != nil {
+		handleError(ctx, err)
+		return
 	}
 
 	ctx.JSON(http.StatusOK, photo)
 }
 
 func (c *PhotoController) contentByHash(ctx *gin.Context) {
-	hash := ctx.Param("hash")
-
-	photoContent, err := c.s.ContentByHash(ctx.Request.Context(), hash)
+	daemon, err := c.getDaemonById(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Can't obtain the media !"})
+		handleError(ctx, err)
+		return
 	}
 
-	ctx.Data(http.StatusOK, "image/jpeg", photoContent)
+	hash := ctx.Param("hash")
+	photoContent, contentType, err := c.photoService.ContentByHash(ctx.Request.Context(), daemon, hash)
+	if err != nil {
+		handleError(ctx, err)
+		return
+	}
+
+	ctx.Data(http.StatusOK, contentType, photoContent)
+}
+
+func (c *PhotoController) getDaemonById(ctx *gin.Context) (*model.Daemon, error) {
+	id, err := uuid.Parse(ctx.Param("id"))
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "daemon id not valid (%s)", id)
+	}
+	daemon, err := c.daemonService.ById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return daemon, nil
 }

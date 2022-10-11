@@ -10,6 +10,10 @@ build-web:
 	cd internal/web \
 	&& pnpm run build
 
+.PHONY: test
+test:
+	go test -v ./...
+
 run:
 	go run . serve
 

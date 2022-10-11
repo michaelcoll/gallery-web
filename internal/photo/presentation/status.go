@@ -14,17 +14,33 @@
  * limitations under the License.
  */
 
-package service
+package presentation
 
 import (
-	"context"
+	"net/http"
 
-	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
+	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
-type PhotoServiceCaller interface {
-	List(ctx context.Context, d *model.Daemon) ([]*model.Photo, error)
-	GetByHash(ctx context.Context, d *model.Daemon, hash string) (*model.Photo, error)
-	Exists(ctx context.Context, d *model.Daemon, hash string) (bool, error)
-	ContentByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error)
+var statusMapping = map[codes.Code]int{
+	codes.NotFound:        http.StatusNotFound,
+	codes.InvalidArgument: http.StatusBadRequest,
+	codes.Unavailable:     http.StatusServiceUnavailable,
+}
+
+func handleError(ctx *gin.Context, err error) {
+	ctx.JSON(getStatus(err), gin.H{"message": err.Error()})
+}
+
+func getStatus(err error) int {
+	st, _ := status.FromError(err)
+	httpStatus, exists := statusMapping[st.Code()]
+
+	if exists {
+		return httpStatus
+	}
+
+	return http.StatusInternalServerError
 }
