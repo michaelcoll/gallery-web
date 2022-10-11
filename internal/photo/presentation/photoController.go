@@ -49,7 +49,7 @@ func (c *PhotoController) Serve() {
 	router.GET("/api/media/:hash/content", c.contentByHash)
 
 	// Listen and serve on 0.0.0.0:8080
-	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✅"), color.GreenString(apiPort))
+	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))
 	err := router.Run(apiPort)
 	if err != nil {
 		log.Fatalf("Error starting server : %v", err)
