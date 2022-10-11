@@ -28,15 +28,15 @@ type Module struct {
 	daemonCtrl presentation.DaemonController
 }
 
-func (m Module) GetPhotoController() *presentation.PhotoController {
+func (m *Module) GetPhotoController() *presentation.PhotoController {
 	return &m.photoCtrl
 }
 
-func (m Module) GetDaemonController() *presentation.DaemonController {
+func (m *Module) GetDaemonController() *presentation.DaemonController {
 	return &m.daemonCtrl
 }
 
-func (m Module) GetService() *service.PhotoService {
+func (m *Module) GetService() *service.PhotoService {
 	return &m.s
 }
 
@@ -47,7 +47,7 @@ func New() Module {
 
 	return Module{
 		s:          photoService,
-		photoCtrl:  presentation.NewPhotoController(photoService),
+		photoCtrl:  presentation.NewPhotoController(&photoService, &daemonService),
 		daemonCtrl: presentation.NewDaemonController(&daemonService),
 	}
 }

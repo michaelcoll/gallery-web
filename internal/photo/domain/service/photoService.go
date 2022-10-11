@@ -30,14 +30,14 @@ func NewPhotoService(c PhotoServiceCaller) PhotoService {
 	return PhotoService{c: c}
 }
 
-func (s *PhotoService) List(ctx context.Context) ([]*model.Photo, error) {
-	return s.c.List(ctx, model.Daemon{Hostname: "localhost", Port: 9000})
+func (s *PhotoService) List(ctx context.Context, daemon *model.Daemon) ([]*model.Photo, error) {
+	return s.c.List(ctx, daemon)
 }
 
-func (s *PhotoService) GetByHash(ctx context.Context, hash string) (*model.Photo, error) {
-	return s.c.GetByHash(ctx, model.Daemon{Hostname: "localhost", Port: 9000}, hash)
+func (s *PhotoService) GetByHash(ctx context.Context, daemon *model.Daemon, hash string) (*model.Photo, error) {
+	return s.c.GetByHash(ctx, daemon, hash)
 }
 
-func (s *PhotoService) ContentByHash(ctx context.Context, hash string) ([]byte, error) {
-	return s.c.ContentByHash(ctx, model.Daemon{Hostname: "localhost", Port: 9000}, hash)
+func (s *PhotoService) ContentByHash(ctx context.Context, daemon *model.Daemon, hash string) ([]byte, string, error) {
+	return s.c.ContentByHash(ctx, daemon, hash)
 }
