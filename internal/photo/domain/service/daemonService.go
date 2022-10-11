@@ -20,6 +20,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"strconv"
 	"sync"
 	"time"
@@ -47,7 +49,7 @@ func NewDaemonService(c PhotoServiceCaller) DaemonService {
 
 func (s *DaemonService) Register(d *model.Daemon) (uuid.UUID, int32, error) {
 	fmt.Printf("%s Registering a new daemon %s (%s) located at %s:%s...",
-		color.GreenString("❗"),
+		color.GreenString("!"),
 		color.GreenString(d.Name),
 		color.GreenString(d.Version),
 		color.CyanString(d.Hostname), color.CyanString(strconv.Itoa(d.Port)))
@@ -57,12 +59,12 @@ func (s *DaemonService) Register(d *model.Daemon) (uuid.UUID, int32, error) {
 
 		s.daemons[d.Id] = d
 
-		fmt.Println(color.GreenString(" ✅ OK"))
+		_, _ = color.New(color.FgGreen, color.Bold).Println(" ✓ OK")
 
 		return d.Id, expiresIn, nil
 	} else {
 
-		fmt.Println(color.RedString(" ❌ KO"))
+		_, _ = color.New(color.FgRed, color.Bold).Println(" ✗ KO")
 
 		return [16]byte{}, 0, errors.New("could not establish connection to your daemon")
 	}
@@ -74,8 +76,7 @@ func (s *DaemonService) HeartBeat(id uuid.UUID) error {
 	if exists {
 		s.activate(daemon)
 	} else {
-		fmt.Printf("%s Daemon %s not found...\n", color.RedString("❌"), color.RedString(id.String()))
-		return errors.New("daemon not found")
+		return status.Error(codes.NotFound, "daemon not found")
 	}
 
 	return nil
@@ -84,7 +85,7 @@ func (s *DaemonService) HeartBeat(id uuid.UUID) error {
 func (s *DaemonService) activate(d *model.Daemon) {
 	if !d.Alive {
 		fmt.Printf("%s Daemon %s reconnected.\n",
-			color.GreenString("❗"),
+			color.GreenString("!"),
 			color.GreenString(d.Name))
 	}
 	s.mu.Lock()
@@ -112,7 +113,7 @@ func (s *DaemonService) Watch() {
 				s.mu.Unlock()
 
 				fmt.Printf("%s Daemon %s unregistered.\n",
-					color.YellowString("❗"),
+					color.YellowString("!"),
 					color.YellowString(d.Name))
 			}
 		}

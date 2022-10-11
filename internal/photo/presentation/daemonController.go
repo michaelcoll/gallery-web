@@ -55,7 +55,7 @@ func (c *DaemonController) Serve() {
 
 	go c.s.Watch()
 
-	fmt.Printf("%s Listening daemons on 0.0.0.0%s\n", color.GreenString("✅"), color.GreenString(grpcPort))
+	fmt.Printf("%s Listening daemons on 0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(grpcPort))
 	err = grpcServer.Serve(lis)
 	if err != nil {
 		log.Fatalf("Failed to serve: %v", err)
