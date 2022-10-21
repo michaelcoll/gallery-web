@@ -86,11 +86,14 @@ func (c *PhotoServiceGrpcCaller) Exists(ctx context.Context, d *model.Daemon, ha
 	}
 	defer closeConnection(conn)
 
-	resp, _ := client.ExistsByHash(ctx, &photov1.ExistsByHashRequest{
+	resp, err := client.ExistsByHash(ctx, &photov1.ExistsByHashRequest{
 		Hash: hash,
 	})
+	if err != nil {
+		return false, err
+	}
 
-	return resp.Exists, err
+	return resp.Exists, nil
 }
 
 func (c *PhotoServiceGrpcCaller) ContentByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error) {
