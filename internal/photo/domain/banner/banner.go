@@ -14,29 +14,38 @@
  * limitations under the License.
  */
 
-package cmd
+package banner
 
 import (
-	"github.com/michaelcoll/gallery-web/internal/photo/domain/banner"
-	"github.com/spf13/cobra"
+	"fmt"
 
-	"github.com/michaelcoll/gallery-web/internal/photo"
+	"github.com/fatih/color"
 )
 
-// serveCmd represents the serve command
-var serveCmd = &cobra.Command{
-	Use:   "serve",
-	Short: "Starts the server",
-	Long:  ``,
-	Run: func(cmd *cobra.Command, args []string) {
-		banner.Print(version, banner.Serve)
+type Mode int
 
-		module := photo.New()
-		go module.GetDaemonController().Serve()
-		module.GetPhotoController().Serve()
-	},
-}
+const (
+	banner = `
+   ______
+  /\_____\
+  \ \__/_/_
+  /\ \_____\  %s %s
+  \ \/ / / /     -= %s =-
+   \/_/\/ /
+      \/_/
 
-func init() {
-	rootCmd.AddCommand(serveCmd)
+`
+
+	Serve Mode = 0
+)
+
+func Print(version string, mode Mode) {
+	var modeStr string
+
+	switch mode {
+	case Serve:
+		modeStr = "serve mode"
+	}
+
+	fmt.Printf(banner, color.BlueString("gallery web"), color.WhiteString(version), color.CyanString(modeStr))
 }
