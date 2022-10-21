@@ -6,7 +6,7 @@ require (
 	github.com/fatih/color v1.13.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/google/uuid v1.3.0
-	github.com/michaelcoll/gallery-proto v0.4.1
+	github.com/michaelcoll/gallery-proto v0.5.1
 	github.com/spf13/cobra v1.6.0
 	github.com/stretchr/testify v1.8.0
 	google.golang.org/grpc v1.50.1
