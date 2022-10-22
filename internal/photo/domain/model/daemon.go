@@ -26,9 +26,10 @@ import (
 type Daemon struct {
 	Id       uuid.UUID
 	Name     string
+	Owner    string
 	Hostname string
 	Port     int
 	Version  string
 	Alive    bool
-	NextSee  time.Time
+	LastSeen time.Time
 }
