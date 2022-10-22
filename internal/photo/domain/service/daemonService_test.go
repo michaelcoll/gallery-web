@@ -50,7 +50,7 @@ func TestDaemonService_List(t *testing.T) {
 	service.daemons[daemon2.Id] = daemon2
 
 	// When
-	list := service.List()
+	list := service.List("me")
 
 	// Then
 	assert.Contains(t, list, daemon0, "should contain testDaemon0")
@@ -96,5 +96,6 @@ func givenDaemon(name string, alive bool) *model.Daemon {
 		Id:    uuid.New(),
 		Name:  name,
 		Alive: alive,
+		Owner: "me",
 	}
 }

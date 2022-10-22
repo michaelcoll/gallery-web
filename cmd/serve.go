@@ -26,8 +26,9 @@ import (
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
-	Short: "Starts the server",
-	Long:  ``,
+	Short: "",
+	Long: `
+Starts the server`,
 	Run: func(cmd *cobra.Command, args []string) {
 		banner.Print(version, banner.Serve)
 

@@ -94,7 +94,7 @@ func (s *DaemonService) activate(d *model.Daemon) {
 			color.GreenString(d.Name))
 	}
 	s.mu.Lock()
-	d.NextSee = time.Now().Add(time.Duration(expiresIn+delta) * time.Second)
+	d.LastSeen = time.Now()
 	d.Alive = true
 	s.mu.Unlock()
 }
@@ -112,7 +112,7 @@ func (s *DaemonService) Watch() {
 	for {
 		for _, d := range s.daemons {
 
-			if d.NextSee.Before(time.Now()) && d.Alive {
+			if d.LastSeen.Add(time.Duration(expiresIn+delta)*time.Second).Before(time.Now()) && d.Alive {
 				s.mu.Lock()
 				d.Alive = false
 				s.mu.Unlock()
@@ -127,13 +127,13 @@ func (s *DaemonService) Watch() {
 	}
 }
 
-func (s *DaemonService) List() []*model.Daemon {
-	daemons := make([]*model.Daemon, len(s.daemons))
+func (s *DaemonService) List(owner string) []*model.Daemon {
+	daemons := make([]*model.Daemon, 0)
 
-	i := 0
 	for _, daemon := range s.daemons {
-		daemons[i] = daemon
-		i++
+		if owner == daemon.Owner {
+			daemons = append(daemons, daemon)
+		}
 	}
 
 	return daemons

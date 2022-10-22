@@ -11,3 +11,5 @@ internal/web/dist
 !.idea/inspectionProfiles
 !.idea/copyright
 *.iml
+internal/web/.idea/*
+!internal/web/.idea/copyright
