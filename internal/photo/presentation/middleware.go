@@ -18,6 +18,7 @@ package presentation
 
 import (
 	"context"
+	"github.com/gin-contrib/gzip"
 	"net/url"
 	"time"
 
@@ -61,8 +62,14 @@ func addMiddlewares(router *gin.Engine) {
 		),
 	)
 
-	jwtMiddleware := jwtmiddleware.New(jwtValidator.ValidateToken)
+	jwtMiddleware := jwtmiddleware.New(jwtValidator.ValidateToken,
+		jwtmiddleware.WithTokenExtractor(
+			jwtmiddleware.MultiTokenExtractor(
+				jwtmiddleware.AuthHeaderTokenExtractor,
+				jwtmiddleware.ParameterTokenExtractor("access-token"),
+			)))
 	router.Use(adapter.Wrap(jwtMiddleware.CheckJWT))
+	router.Use(gzip.Gzip(gzip.DefaultCompression))
 }
 
 // EmailCustomClaims contains custom data we want from the token.
@@ -72,7 +79,7 @@ type EmailCustomClaims struct {
 
 // Validate does nothing for this example, but we need
 // it to satisfy validator.CustomClaims interface.
-func (c EmailCustomClaims) Validate(ctx context.Context) error {
+func (c EmailCustomClaims) Validate(_ context.Context) error {
 	return nil
 }
 

@@ -1,6 +1,6 @@
 <template>
   <PageLayout>
-    <div class="content-layout">
+    <div class="content-layout daemon-page">
       <h1 id="page-title" class="content__title">Profile Page</h1>
       <div class="content__body">
         <div class="profile-grid">

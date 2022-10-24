@@ -31,7 +31,13 @@ var statusMapping = map[codes.Code]int{
 }
 
 func handleError(ctx *gin.Context, err error) {
-	ctx.JSON(getStatus(err), gin.H{"message": err.Error()})
+	st := getStatus(err)
+
+	if st == http.StatusInternalServerError {
+		panic(err)
+	}
+
+	ctx.JSON(st, gin.H{"message": err.Error()})
 }
 
 func getStatus(err error) int {

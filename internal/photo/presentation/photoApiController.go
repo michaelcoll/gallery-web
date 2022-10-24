@@ -18,6 +18,7 @@ package presentation
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +30,10 @@ func (c *ApiController) mediaList(ctx *gin.Context) {
 		return
 	}
 
-	photos, err := c.photoService.List(ctx.Request.Context(), daemon)
+	page, _ := strconv.Atoi(ctx.DefaultQuery("page", "0"))
+	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "25"))
+
+	photos, err := c.photoService.List(ctx.Request.Context(), daemon, int32(page), int32(pageSize))
 	if err != nil {
 		handleError(ctx, err)
 		return

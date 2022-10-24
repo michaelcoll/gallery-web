@@ -5,10 +5,12 @@ go 1.19
 require (
 	github.com/auth0/go-jwt-middleware/v2 v2.0.1
 	github.com/fatih/color v1.13.0
+	github.com/gin-contrib/cors v1.4.0
+	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.8.1
 	github.com/google/uuid v1.3.0
 	github.com/gwatts/gin-adapter v1.0.0
-	github.com/michaelcoll/gallery-proto v0.5.1
+	github.com/michaelcoll/gallery-proto v0.6.0
 	github.com/spf13/cobra v1.6.0
 	github.com/stretchr/testify v1.8.0
 	google.golang.org/grpc v1.50.1
@@ -16,7 +18,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gin-contrib/cors v1.4.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
@@ -39,7 +40,7 @@ require (
 	golang.org/x/net v0.1.0 // indirect
 	golang.org/x/sys v0.1.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
-	google.golang.org/genproto v0.0.0-20221018160656-63c7b68cfc55 // indirect
+	google.golang.org/genproto v0.0.0-20221024183307-1bc688fe9f3e // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
