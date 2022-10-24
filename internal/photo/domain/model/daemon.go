@@ -24,12 +24,12 @@ import (
 
 // Daemon a representation of a daemon
 type Daemon struct {
-	Id       uuid.UUID
-	Name     string
-	Owner    string
-	Hostname string
-	Port     int
-	Version  string
-	Alive    bool
-	LastSeen time.Time
+	Id       uuid.UUID `json:"id"`
+	Name     string    `json:"name"`
+	Owner    string    `json:"owner"`
+	Hostname string    `json:"hostname"`
+	Port     int       `json:"port"`
+	Version  string    `json:"version,omitempty"`
+	Alive    bool      `json:"alive"`
+	LastSeen time.Time `json:"last-seen"`
 }

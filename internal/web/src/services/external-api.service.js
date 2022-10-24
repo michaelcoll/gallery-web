@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const callExternalApi = async (options) => {
+  console.log("api call : ", options.config.url);
   try {
     const response = await axios(options.config);
     const { data } = response;

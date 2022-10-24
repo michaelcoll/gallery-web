@@ -14,17 +14,37 @@
  * limitations under the License.
  */
 
-package service
+.gallery-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 10px 0;
+}
 
-import (
-	"context"
+figure.gallery-item {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
 
-	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
-)
+.gallery-container a {
+  display: block;
+  line-height: 0;
+  margin: 0 4px 4px 0;
+  position: relative;
+  align-items: stretch;
+}
 
-type PhotoServiceCaller interface {
-	List(ctx context.Context, d *model.Daemon, page int32, pageSize int32) ([]*model.Photo, error)
-	GetByHash(ctx context.Context, d *model.Daemon, hash string) (*model.Photo, error)
-	Exists(ctx context.Context, d *model.Daemon, hash string) (bool, error)
-	ContentByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error)
+.gallery-container img {
+  left: 0;
+  max-width: none;
+  top: 0;
+  width: 100%;
+  height: 200px;
+}
+
+.gallery-day {
+  margin-top: 10px;
 }

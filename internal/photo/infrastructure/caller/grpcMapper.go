@@ -24,7 +24,6 @@ import (
 func toDomain(grpc *photov1.Photo) *model.Photo {
 	return &model.Photo{
 		Hash: grpc.Hash,
-		Path: grpc.Path,
 
 		DateTime:     grpc.DateTime,
 		Iso:          grpc.Iso,

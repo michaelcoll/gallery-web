@@ -38,7 +38,7 @@ func New() *PhotoServiceGrpcCaller {
 	return &PhotoServiceGrpcCaller{}
 }
 
-func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon) ([]*model.Photo, error) {
+func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon, page int32, pageSize int32) ([]*model.Photo, error) {
 
 	client, conn, err := createClient(d)
 	if err != nil {
@@ -46,7 +46,10 @@ func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon) ([]*
 	}
 	defer closeConnection(conn)
 
-	photoResponse, err := client.GetPhotos(ctx, &photov1.GetPhotosRequest{})
+	photoResponse, err := client.GetPhotos(ctx, &photov1.GetPhotosRequest{
+		Page:     page,
+		PageSize: pageSize,
+	})
 	if err != nil {
 		return nil, err
 	}

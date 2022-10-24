@@ -11,7 +11,7 @@ const handleSignUp = () => {
   loginWithRedirect({
     prompt: "login",
     appState: {
-      target: "/profile",
+      target: "/gallery",
     },
     screen_hint: "signup",
   });

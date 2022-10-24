@@ -18,7 +18,6 @@ package model
 
 type Photo struct {
 	Hash string `json:"hash"`
-	Path string `json:"path"`
 
 	DateTime     string `json:"dateTime,omitempty"`
 	Iso          int32  `json:"iso,omitempty"`

@@ -1,16 +1,15 @@
 <template>
   <div class="nav-bar__tabs">
-    <NavBarTab path="/profile" label="Profile" />
-    <NavBarTab path="/public" label="Public" />
     <template v-if="isAuthenticated">
-      <NavBarTab path="/protected" label="Protected" />
-      <NavBarTab path="/admin" label="Admin" />
+      <NavDaemonDropDown path="/daemon" />
+      <NavBarTab path="/gallery" label="Gallery" />
     </template>
   </div>
 </template>
 
 <script setup>
 import NavBarTab from "@/components/navigation/desktop/nav-bar-tab.vue";
+import NavDaemonDropDown from "@/components/navigation/desktop/nav-daemon-dropdown.vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 
 const { isAuthenticated } = useAuth0();
