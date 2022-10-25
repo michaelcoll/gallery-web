@@ -40,24 +40,26 @@ const (
 )
 
 type DaemonService struct {
-	c       PhotoServiceCaller
+	caller  PhotoServiceCaller
 	daemons map[uuid.UUID]*model.Daemon
 	mu      sync.Mutex
 }
 
 func NewDaemonService(c PhotoServiceCaller) DaemonService {
 	return DaemonService{
-		c:       c,
+		caller:  c,
 		daemons: make(map[uuid.UUID]*model.Daemon),
 	}
 }
 
-func (s *DaemonService) Register(d *model.Daemon) (uuid.UUID, int32, error) {
+func (s *DaemonService) Register(newDaemon *model.Daemon) (uuid.UUID, int32, error) {
 	fmt.Printf("%s Registering a new daemon %s (%s) located at %s:%s...",
 		color.GreenString("!"),
-		color.GreenString(d.Name),
-		color.GreenString(d.Version),
-		color.CyanString(d.Hostname), color.CyanString(strconv.Itoa(d.Port)))
+		color.GreenString(newDaemon.Name),
+		color.GreenString(newDaemon.Version),
+		color.CyanString(newDaemon.Hostname), color.CyanString(strconv.Itoa(newDaemon.Port)))
+
+	d := s.findInExistingDaemon(newDaemon)
 
 	if s.validateDaemonConnection(d) {
 		s.activate(d)
@@ -73,6 +75,20 @@ func (s *DaemonService) Register(d *model.Daemon) (uuid.UUID, int32, error) {
 
 		return [16]byte{}, 0, errors.New("could not establish connection to your daemon")
 	}
+}
+
+func (s *DaemonService) findInExistingDaemon(d *model.Daemon) *model.Daemon {
+	for _, daemon := range s.daemons {
+		if d.Name == daemon.Name &&
+			d.Owner == daemon.Owner &&
+			d.Hostname == daemon.Hostname {
+			daemon.Alive = true
+			_, _ = color.New(color.FgGreen, color.Bold).Print(" ✓ Reconnected ")
+			return daemon
+		}
+	}
+
+	return d
 }
 
 func (s *DaemonService) HeartBeat(id uuid.UUID) error {
@@ -100,7 +116,7 @@ func (s *DaemonService) activate(d *model.Daemon) {
 }
 
 func (s *DaemonService) validateDaemonConnection(d *model.Daemon) bool {
-	_, err := s.c.Exists(context.Background(), d, "0")
+	_, err := s.caller.Exists(context.Background(), d, "0")
 	if err != nil {
 		return false
 	}
