@@ -27,4 +27,5 @@ type PhotoServiceCaller interface {
 	GetByHash(ctx context.Context, d *model.Daemon, hash string) (*model.Photo, error)
 	Exists(ctx context.Context, d *model.Daemon, hash string) (bool, error)
 	ContentByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error)
+	ThumbnailByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error)
 }

@@ -46,7 +46,7 @@ const getAllMedia = async () => {
 
       imagesMap.value.get(day).push({
         largeURL: `${apiServerUrl}/api/daemon/${sessionStorage.currentDaemonId}/media/${photo.hash}/content?access-token=${accessToken}`,
-        thumbnailURL: `${apiServerUrl}/api/daemon/${sessionStorage.currentDaemonId}/media/${photo.hash}/content?access-token=${accessToken}`,
+        thumbnailURL: `${apiServerUrl}/api/daemon/${sessionStorage.currentDaemonId}/media/${photo.hash}/thumbnail?access-token=${accessToken}`,
         width: photo.xDimension,
         height: photo.yDimension,
         date: parsedDate,
