@@ -60,6 +60,9 @@ func (c *ApiController) getByHash(ctx *gin.Context) {
 }
 
 func (c *ApiController) contentByHash(ctx *gin.Context) {
+
+	ctx.Writer.Header().Set("Cache-Control", "public, max-age=604800, immutable")
+
 	daemon, err := c.getDaemonById(ctx)
 	if err != nil {
 		handleError(ctx, err)
@@ -68,6 +71,26 @@ func (c *ApiController) contentByHash(ctx *gin.Context) {
 
 	hash := ctx.Param("hash")
 	photoContent, contentType, err := c.photoService.ContentByHash(ctx.Request.Context(), daemon, hash)
+	if err != nil {
+		handleError(ctx, err)
+		return
+	}
+
+	ctx.Data(http.StatusOK, contentType, photoContent)
+}
+
+func (c *ApiController) thumbnailByHash(ctx *gin.Context) {
+
+	ctx.Writer.Header().Set("Cache-Control", "public, max-age=604800, immutable")
+
+	daemon, err := c.getDaemonById(ctx)
+	if err != nil {
+		handleError(ctx, err)
+		return
+	}
+
+	hash := ctx.Param("hash")
+	photoContent, contentType, err := c.photoService.ThumbnailByHash(ctx.Request.Context(), daemon, hash)
 	if err != nil {
 		handleError(ctx, err)
 		return

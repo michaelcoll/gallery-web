@@ -51,6 +51,7 @@ func (c *ApiController) Serve() {
 	router.GET("/api/daemon/:id/media", c.mediaList)
 	router.GET("/api/daemon/:id/media/:hash", c.getByHash)
 	router.GET("/api/daemon/:id/media/:hash/content", c.contentByHash)
+	router.GET("/api/daemon/:id/media/:hash/thumbnail", c.thumbnailByHash)
 
 	// Listen and serve on 0.0.0.0:8080
 	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))

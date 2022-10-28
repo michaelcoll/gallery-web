@@ -41,3 +41,7 @@ func (s *PhotoService) GetByHash(ctx context.Context, daemon *model.Daemon, hash
 func (s *PhotoService) ContentByHash(ctx context.Context, daemon *model.Daemon, hash string) ([]byte, string, error) {
 	return s.c.ContentByHash(ctx, daemon, hash)
 }
+
+func (s *PhotoService) ThumbnailByHash(ctx context.Context, daemon *model.Daemon, hash string) ([]byte, string, error) {
+	return s.c.ThumbnailByHash(ctx, daemon, hash)
+}

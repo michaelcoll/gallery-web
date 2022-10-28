@@ -25,7 +25,8 @@
         target="_blank"
         rel="noreferrer"
       >
-        <img :src="image.thumbnailURL" alt="" />
+        <img :src="image.thumbnailURL" alt="" loading="lazy" />
+        <!--suppress HtmlUnknownTag -->
         <figcaption class="pswp-caption-content">
           <strong>Image Info</strong><br />
           Date : {{ image.date }}

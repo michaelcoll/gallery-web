@@ -130,6 +130,37 @@ func (c *PhotoServiceGrpcCaller) ContentByHash(ctx context.Context, d *model.Dae
 	}
 }
 
+func (c *PhotoServiceGrpcCaller) ThumbnailByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error) {
+
+	client, conn, err := createClient(d)
+	if err != nil {
+		return nil, "", status.Errorf(codes.Unavailable, "can't connect to the daemon (%v)", err)
+	}
+	defer closeConnection(conn)
+
+	stream, err := client.ThumbnailByHash(ctx, &photov1.ThumbnailByHashRequest{
+		Hash: hash,
+	})
+	if err != nil {
+		return nil, "", err
+	}
+
+	content := make([]byte, 0)
+	var contentType string
+	for {
+		chunk, err := stream.Recv()
+		if err == io.EOF {
+			return content, contentType, nil
+		}
+		if err != nil {
+			return nil, "", err
+		}
+
+		content = append(content, chunk.Data...)
+		contentType = chunk.ContentType
+	}
+}
+
 func createClient(d *model.Daemon) (photov1.PhotoServiceClient, *grpc.ClientConn, error) {
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
