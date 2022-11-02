@@ -4,7 +4,7 @@ const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 
 export const getMediaList = async (accessToken, daemonId, page, pageSize) => {
   const config = {
-    url: `${apiServerUrl}/api/daemon/${daemonId}/media?page=${page}&pageSize=${pageSize}`,
+    url: `${apiServerUrl}/api/v1/daemon/${daemonId}/media?page=${page}&pageSize=${pageSize}`,
     method: "GET",
     headers: {
       "content-type": "application/json",

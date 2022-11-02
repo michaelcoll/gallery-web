@@ -4,7 +4,7 @@ const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 
 export const getDaemonList = async (accessToken) => {
   const config = {
-    url: `${apiServerUrl}/api/daemon`,
+    url: `${apiServerUrl}/api/v1/daemon`,
     method: "GET",
     headers: {
       "content-type": "application/json",
@@ -18,4 +18,15 @@ export const getDaemonList = async (accessToken) => {
     data: data || null,
     error,
   };
+};
+
+export const daemonIsAlive = async (daemonId) => {
+  const config = {
+    url: `${apiServerUrl}/api/v1/daemon/${daemonId}/status`,
+    method: "GET",
+  };
+
+  const { error } = await callExternalApi({ config });
+
+  return error == null;
 };

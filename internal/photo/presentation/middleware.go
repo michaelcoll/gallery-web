@@ -18,16 +18,16 @@ package presentation
 
 import (
 	"context"
+	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/gin-contrib/gzip"
+	adapter "github.com/gwatts/gin-adapter"
 	"net/url"
 	"time"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware/v2"
-	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/auth0/go-jwt-middleware/v2/validator"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	adapter "github.com/gwatts/gin-adapter"
 )
 
 const (
@@ -35,9 +35,9 @@ const (
 	auth0Audience  = "https://gallery-api/"
 )
 
-func addMiddlewares(router *gin.Engine) {
+func addCommonMiddlewares(group *gin.Engine) {
 	// CORS middleware
-	router.Use(cors.New(cors.Config{
+	group.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:4040"},
 		AllowMethods:     []string{"GET"},
 		AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control"},
@@ -46,7 +46,14 @@ func addMiddlewares(router *gin.Engine) {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// JWT middleware
+	// Gzip middleware
+	group.Use(gzip.Gzip(gzip.DefaultCompression))
+
+	// Recovery middleware
+	group.Use(gin.Recovery())
+}
+
+func addJWTMiddlewares(group *gin.RouterGroup) {
 	issuerURL, _ := url.Parse(auth0IssuerUrl)
 
 	provider := jwks.NewCachingProvider(issuerURL, 5*time.Minute)
@@ -67,9 +74,9 @@ func addMiddlewares(router *gin.Engine) {
 			jwtmiddleware.MultiTokenExtractor(
 				jwtmiddleware.AuthHeaderTokenExtractor,
 				jwtmiddleware.ParameterTokenExtractor("access-token"),
-			)))
-	router.Use(adapter.Wrap(jwtMiddleware.CheckJWT))
-	router.Use(gzip.Gzip(gzip.DefaultCompression))
+			)),
+		jwtmiddleware.WithValidateOnOptions(false))
+	group.Use(adapter.Wrap(jwtMiddleware.CheckJWT))
 }
 
 // EmailCustomClaims contains custom data we want from the token.

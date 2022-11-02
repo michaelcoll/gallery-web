@@ -43,6 +43,20 @@ func (c *ApiController) daemonById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, daemon)
 }
 
+func (c *ApiController) daemonStatusById(ctx *gin.Context) {
+	id, err := uuid.Parse(ctx.Param("id"))
+	if err != nil {
+		handleError(ctx, status.Errorf(codes.InvalidArgument, "daemon id not valid (%s)", id))
+	}
+
+	exists := c.daemonService.ExistsById(id)
+	if !exists {
+		handleError(ctx, status.Error(codes.NotFound, "daemon not found"))
+	}
+
+	ctx.JSON(http.StatusOK, "")
+}
+
 func (c *ApiController) getDaemonById(ctx *gin.Context) (*model.Daemon, error) {
 	id, err := uuid.Parse(ctx.Param("id"))
 	if err != nil {
