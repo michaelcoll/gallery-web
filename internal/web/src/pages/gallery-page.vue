@@ -22,16 +22,18 @@ import { ref } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 import { getMediaList } from "@/services/media.service";
 import dayjs from "dayjs";
+import { useDaemonStore } from "@/stores/daemon";
 
 const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 const imagesMap = ref(new Map());
+const daemonStore = useDaemonStore();
 
 const getAllMedia = async () => {
   const { getAccessTokenSilently } = useAuth0();
   const accessToken = await getAccessTokenSilently();
   const { data, error } = await getMediaList(
     accessToken,
-    sessionStorage.currentDaemonId,
+    daemonStore.id,
     0,
     25
   );
@@ -45,8 +47,8 @@ const getAllMedia = async () => {
       }
 
       imagesMap.value.get(day).push({
-        largeURL: `${apiServerUrl}/api/daemon/${sessionStorage.currentDaemonId}/media/${photo.hash}/content?access-token=${accessToken}`,
-        thumbnailURL: `${apiServerUrl}/api/daemon/${sessionStorage.currentDaemonId}/media/${photo.hash}/thumbnail?access-token=${accessToken}`,
+        largeURL: `${apiServerUrl}/api/v1/daemon/${daemonStore.id}/media/${photo.hash}/content?access-token=${accessToken}`,
+        thumbnailURL: `${apiServerUrl}/api/v1/daemon/${daemonStore.id}/media/${photo.hash}/thumbnail?access-token=${accessToken}`,
         width: photo.xDimension,
         height: photo.yDimension,
         date: parsedDate,

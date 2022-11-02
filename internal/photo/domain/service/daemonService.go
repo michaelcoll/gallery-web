@@ -167,3 +167,16 @@ func (s *DaemonService) ById(id uuid.UUID) (*model.Daemon, error) {
 		return nil, status.Error(codes.NotFound, "daemon not found")
 	}
 }
+
+func (s *DaemonService) ExistsById(id uuid.UUID) bool {
+	daemon, exists := s.daemons[id]
+
+	if exists {
+		if !daemon.Alive {
+			return false
+		}
+		return true
+	} else {
+		return false
+	}
+}

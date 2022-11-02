@@ -1,9 +1,11 @@
 import { createAuth0 } from "@auth0/auth0-vue";
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "./app.vue";
 import "./assets/css/styles.css";
 import router from "./router";
 
+const pinia = createPinia();
 const app = createApp(App);
 
 app
@@ -16,4 +18,5 @@ app
       audience: import.meta.env.VITE_AUTH0_API_AUDIENCE,
     })
   )
+  .use(pinia)
   .mount("#root");

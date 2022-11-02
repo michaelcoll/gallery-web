@@ -14,38 +14,25 @@
  * limitations under the License.
  */
 
-package banner
+import { defineStore } from "pinia";
 
-import (
-	"fmt"
-
-	"github.com/fatih/color"
-)
-
-type Mode int
-
-const (
-	banner = `
-   ______
-  /\_____\
-  \ \__/_/_
-  /\ \_____\  %s %s
-  \ \/ / / /     -[ %s ]-
-   \/_/\/ /
-      \/_/
-
-`
-
-	Serve Mode = 0
-)
-
-func Print(version string, mode Mode) {
-	var modeStr string
-
-	switch mode {
-	case Serve:
-		modeStr = "serve mode"
-	}
-
-	fmt.Printf(banner, color.BlueString("gallery web"), color.WhiteString(version), color.CyanString(modeStr))
-}
+export const useDaemonStore = defineStore("daemon", {
+  state: () => {
+    return { id: "", name: "No active daemon" };
+  },
+  actions: {
+    useDaemon(id, name) {
+      this.id = id;
+      this.name = name;
+    },
+    clearDaemon() {
+      this.id = "";
+      this.name = "No active daemon";
+    },
+  },
+  getters: {
+    hasActiveDaemon() {
+      return this.id !== "";
+    },
+  },
+});

@@ -43,15 +43,21 @@ func (c *ApiController) Serve() {
 	router := gin.Default()
 
 	serveStatic(router)
+	addCommonMiddlewares(router)
 
-	addMiddlewares(router)
+	public := router.Group("/api/v1")
+	private := router.Group("/api/v1")
 
-	router.GET("/api/daemon", c.daemonList)
-	router.GET("/api/daemon/:id", c.daemonById)
-	router.GET("/api/daemon/:id/media", c.mediaList)
-	router.GET("/api/daemon/:id/media/:hash", c.getByHash)
-	router.GET("/api/daemon/:id/media/:hash/content", c.contentByHash)
-	router.GET("/api/daemon/:id/media/:hash/thumbnail", c.thumbnailByHash)
+	addJWTMiddlewares(private)
+
+	private.GET("/daemon", c.daemonList)
+	private.GET("/daemon/:id", c.daemonById)
+	private.GET("/daemon/:id/media", c.mediaList)
+	private.GET("/daemon/:id/media/:hash", c.getByHash)
+	private.GET("/daemon/:id/media/:hash/content", c.contentByHash)
+	private.GET("/daemon/:id/media/:hash/thumbnail", c.thumbnailByHash)
+
+	public.GET("/daemon/:id/status", c.daemonStatusById)
 
 	// Listen and serve on 0.0.0.0:8080
 	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))
