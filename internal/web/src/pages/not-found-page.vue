@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import PageLayout from "@/components/page-layout.vue";
+</script>
+
 <template>
   <PageLayout>
     <div class="content-layout">
@@ -5,7 +9,3 @@
     </div>
   </PageLayout>
 </template>
-
-<script setup>
-import PageLayout from "@/components/page-layout.vue";
-</script>

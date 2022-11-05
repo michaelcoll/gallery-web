@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const logo = "https://cdn.auth0.com/blog/developer-hub/vue-logo.svg";
+</script>
+
 <template>
   <div class="hero-banner hero-banner--yellow-mandarine">
     <div class="hero-banner__logo">
@@ -22,7 +26,3 @@
     </a>
   </div>
 </template>
-
-<script setup>
-const logo = "https://cdn.auth0.com/blog/developer-hub/vue-logo.svg";
-</script>

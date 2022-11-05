@@ -1,12 +1,62 @@
+<script setup lang="ts">
+import PageLayout from "@/components/page-layout.vue";
+import type Gallery from "@/components/day-gallery.vue";
+import type { Ref } from "vue";
+import { ref } from "vue";
+import dayjs from "dayjs";
+import { useDaemonStore } from "@/stores/daemon";
+import { getMediaList } from "@/lib/media-api";
+import type { GalleryImage } from "@/lib/gallery";
+import { buildImage } from "@/lib/gallery";
+import { useAuth0 } from "@auth0/auth0-vue";
+import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
+
+const imagesMap: Ref<Map<string, Array<GalleryImage>>> = ref(new Map());
+const daemonStore = useDaemonStore();
+const auth0Client = useAuth0();
+
+const getAllMedia = async (
+  auth0Client: Auth0VueClient
+): Promise<Map<string, Array<GalleryImage>>> => {
+  const photos = await getMediaList(auth0Client, daemonStore.id, 0, 25);
+
+  let imagesMap = new Map();
+
+  if (photos) {
+    for await (const photo of photos) {
+      let parsedDate = dayjs(photo.dateTime);
+      let day = parsedDate.format("YYYY-MM-DD");
+
+      let galleryImage = await buildImage(
+        auth0Client,
+        photo,
+        daemonStore.id,
+        parsedDate
+      );
+      let gallery = imagesMap.get(day);
+      if (gallery) {
+        gallery.push(galleryImage);
+      } else {
+        console.log(day, galleryImage);
+        imagesMap.set(day, new Array<GalleryImage>(galleryImage));
+      }
+    }
+  }
+
+  return imagesMap;
+};
+
+getAllMedia(auth0Client).then((map) => (imagesMap.value = map));
+</script>
+
 <template>
   <PageLayout>
     <div class="content-layout">
-      <!--      <h1 id="page-title" class="content__title">Gallery</h1>-->
       <div class="content__body">
         <Gallery
           v-for="[date, images] in imagesMap"
-          galleryID="my-test-gallery"
           :key="date"
+          gallery-i-d="my-test-gallery"
           :day="date"
           :images="images"
         />
@@ -14,52 +64,3 @@
     </div>
   </PageLayout>
 </template>
-
-<script setup>
-import PageLayout from "@/components/page-layout.vue";
-import Gallery from "@/components/day-gallery.vue";
-import { ref } from "vue";
-import { useAuth0 } from "@auth0/auth0-vue";
-import { getMediaList } from "@/services/media.service";
-import dayjs from "dayjs";
-import { useDaemonStore } from "@/stores/daemon";
-
-const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
-const imagesMap = ref(new Map());
-const daemonStore = useDaemonStore();
-
-const getAllMedia = async () => {
-  const { getAccessTokenSilently } = useAuth0();
-  const accessToken = await getAccessTokenSilently();
-  const { data, error } = await getMediaList(
-    accessToken,
-    daemonStore.id,
-    0,
-    25
-  );
-
-  if (data) {
-    data.forEach((photo) => {
-      let parsedDate = dayjs(photo.dateTime);
-      let day = parsedDate.format("YYYY-MM-DD");
-      if (!imagesMap.value.has(day)) {
-        imagesMap.value.set(day, []);
-      }
-
-      imagesMap.value.get(day).push({
-        largeURL: `${apiServerUrl}/api/v1/daemon/${daemonStore.id}/media/${photo.hash}/content?access-token=${accessToken}`,
-        thumbnailURL: `${apiServerUrl}/api/v1/daemon/${daemonStore.id}/media/${photo.hash}/thumbnail?access-token=${accessToken}`,
-        width: photo.xDimension,
-        height: photo.yDimension,
-        date: parsedDate,
-      });
-    });
-  }
-
-  if (error) {
-    console.log("error", error);
-  }
-};
-
-getAllMedia();
-</script>

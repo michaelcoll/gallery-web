@@ -14,22 +14,4 @@
  * limitations under the License.
  */
 
-package model
-
-import (
-	"time"
-
-	"github.com/google/uuid"
-)
-
-// Daemon a representation of a daemon
-type Daemon struct {
-	Id       uuid.UUID `json:"id"`
-	Name     string    `json:"name"`
-	Owner    string    `json:"owner"`
-	Hostname string    `json:"hostname"`
-	Port     int       `json:"port"`
-	Version  string    `json:"version"`
-	Alive    bool      `json:"alive"`
-	LastSeen time.Time `json:"lastSeen"`
-}
+/// <reference types="vite/client" />

@@ -1,45 +1,27 @@
-<template>
-  <router-link
-    :to="props.path"
-    exact
-    class="nav-bar__daemon"
-    active-class="nav-bar__daemon--active"
-  >
-    Daemons
-    <span class="daemon-name">{{ daemonStore.name }}</span>
-  </router-link>
-</template>
-
-<script setup>
-import { getDaemonList, daemonIsAlive } from "@/services/daemon.service";
-import { useAuth0 } from "@auth0/auth0-vue";
+<script setup lang="ts">
 import { useDaemonStore } from "@/stores/daemon";
 import { onMounted, onUnmounted, ref } from "vue";
+import { daemonIsAlive, getDaemonList } from "@/lib/daemon-api";
+import { useAuth0 } from "@auth0/auth0-vue";
 
-const props = defineProps({
-  path: String,
-});
+const props = defineProps<{
+  path: string;
+}>();
 
 const daemonStore = useDaemonStore();
 const intervalId = ref();
 
 const refreshCurrentDaemon = async () => {
-  const { getAccessTokenSilently } = useAuth0();
-  const accessToken = await getAccessTokenSilently();
-  const { data, error } = await getDaemonList(accessToken);
+  const daemons = await getDaemonList(useAuth0());
 
-  if (data) {
-    if (data.length > 0) {
-      data.forEach((daemon) => {
+  if (daemons) {
+    if (daemons.length > 0) {
+      daemons.forEach((daemon) => {
         if (daemon.alive) {
           daemonStore.useDaemon(daemon.id, daemon.name);
         }
       });
     }
-  }
-
-  if (error) {
-    console.log("error", error);
   }
 };
 
@@ -69,3 +51,15 @@ onUnmounted(() => {
   clearInterval(intervalId.value);
 });
 </script>
+
+<template>
+  <router-link
+    :to="props.path"
+    exact
+    class="nav-bar__daemon"
+    active-class="nav-bar__daemon--active"
+  >
+    Daemons
+    <span class="daemon-name">{{ daemonStore.name }}</span>
+  </router-link>
+</template>
