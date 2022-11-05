@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import { mobileMenuStore } from "./mobile-menu.store";
+</script>
+
 <template>
-  <div @click="mobileMenuStore.closeMobileMenu" class="mobile-nav-bar__brand">
+  <div class="mobile-nav-bar__brand" @click="mobileMenuStore.closeMobileMenu">
     <router-link to="/">
       <img
         class="mobile-nav-bar__logo"
@@ -11,7 +15,3 @@
     </router-link>
   </div>
 </template>
-
-<script setup>
-import { mobileMenuStore } from "./mobile-menu.store.js";
-</script>

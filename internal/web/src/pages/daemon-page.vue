@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import PageLayout from "@/components/page-layout.vue";
+import { useAuth0 } from "@auth0/auth0-vue";
+
+const { user } = useAuth0();
+</script>
+
 <template>
   <PageLayout>
     <div class="content-layout daemon-page">
@@ -16,10 +23,3 @@
     </div>
   </PageLayout>
 </template>
-
-<script setup>
-import PageLayout from "@/components/page-layout.vue";
-import { useAuth0 } from "@auth0/auth0-vue";
-
-const { user } = useAuth0();
-</script>

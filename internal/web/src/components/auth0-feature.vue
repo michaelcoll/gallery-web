@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const props = defineProps<{
+  title: string;
+  description: string;
+  resourceUrl: string;
+  icon: string;
+}>();
+</script>
+
 <template>
   <a
     :href="props.resourceUrl"
@@ -16,12 +25,3 @@
     <p class="auth0-feature__description">{{ props.description }}</p>
   </a>
 </template>
-
-<script setup>
-const props = defineProps({
-  title: String,
-  description: String,
-  resourceUrl: String,
-  icon: String,
-});
-</script>

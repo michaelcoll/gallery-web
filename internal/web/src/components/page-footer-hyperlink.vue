@@ -1,3 +1,9 @@
+<script setup lang="ts">
+const props = defineProps<{
+  path: string;
+}>();
+</script>
+
 <template>
   <a
     :href="props.path"
@@ -8,9 +14,3 @@
     <slot />
   </a>
 </template>
-
-<script setup>
-const props = defineProps({
-  path: String,
-});
-</script>

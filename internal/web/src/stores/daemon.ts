@@ -21,7 +21,7 @@ export const useDaemonStore = defineStore("daemon", {
     return { id: "", name: "No active daemon" };
   },
   actions: {
-    useDaemon(id, name) {
+    useDaemon(id: string, name: string) {
       this.id = id;
       this.name = name;
     },
@@ -31,7 +31,7 @@ export const useDaemonStore = defineStore("daemon", {
     },
   },
   getters: {
-    hasActiveDaemon() {
+    hasActiveDaemon(): boolean {
       return this.id !== "";
     },
   },

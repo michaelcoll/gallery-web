@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import MobileMenuToggleButton from "@/components/navigation/mobile/mobile-menu-toggle-button.vue";
+import MobileNavBarBrand from "@/components/navigation/mobile/mobile-nav-bar-brand.vue";
+import MobileNavBarButtons from "@/components/navigation/mobile/mobile-nav-bar-buttons.vue";
+import MobileNavBarTabs from "@/components/navigation/mobile/mobile-nav-bar-tabs.vue";
+import { useRouter } from "vue-router";
+import { mobileMenuStore } from "./mobile-menu.store";
+
+const router = useRouter();
+
+router.afterEach(() => {
+  if (mobileMenuStore.isMobileMenuOpen()) {
+    mobileMenuStore.closeMobileMenu();
+  }
+});
+</script>
+
 <template>
   <div class="mobile-nav-bar__container">
     <nav class="mobile-nav-bar">
@@ -13,20 +30,3 @@
     </nav>
   </div>
 </template>
-
-<script setup>
-import MobileMenuToggleButton from "@/components/navigation/mobile/mobile-menu-toggle-button.vue";
-import MobileNavBarBrand from "@/components/navigation/mobile/mobile-nav-bar-brand.vue";
-import MobileNavBarButtons from "@/components/navigation/mobile/mobile-nav-bar-buttons.vue";
-import MobileNavBarTabs from "@/components/navigation/mobile/mobile-nav-bar-tabs.vue";
-import { useRouter } from "vue-router";
-import { mobileMenuStore } from "./mobile-menu.store.js";
-
-const router = useRouter();
-
-router.afterEach(() => {
-  if (mobileMenuStore.isMobileMenuOpen()) {
-    mobileMenuStore.closeMobileMenu();
-  }
-});
-</script>

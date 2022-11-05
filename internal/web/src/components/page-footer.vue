@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import PageFooterHyperlink from "@/components/page-footer-hyperlink.vue";
+</script>
+
 <template>
   <footer class="page-footer">
     <div class="page-footer-grid">
@@ -22,7 +26,3 @@
     </div>
   </footer>
 </template>
-
-<script setup>
-import PageFooterHyperlink from "@/components/page-footer-hyperlink.vue";
-</script>

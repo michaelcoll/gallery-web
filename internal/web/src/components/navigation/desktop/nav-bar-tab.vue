@@ -1,3 +1,10 @@
+<script setup lang="ts">
+const props = defineProps<{
+  path: string;
+  label: string;
+}>();
+</script>
+
 <template>
   <router-link
     :to="props.path"
@@ -8,10 +15,3 @@
     {{ props.label }}
   </router-link>
 </template>
-
-<script setup>
-const props = defineProps({
-  path: String,
-  label: String,
-});
-</script>
