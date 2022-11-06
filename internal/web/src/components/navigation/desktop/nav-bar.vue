@@ -1,15 +1,52 @@
 <script setup lang="ts">
 import NavBarBrand from "@/components/navigation/desktop/nav-bar-brand.vue";
-import NavBarButtons from "@/components/navigation/desktop/nav-bar-buttons.vue";
-import NavBarTabs from "@/components/navigation/desktop/nav-bar-tabs.vue";
+import NavBarDarkMode from "@/components/navigation/desktop/nav-bar-darkmode.vue";
+import NavDaemonDropDown from "@/components/navigation/desktop/nav-daemon-dropdown.vue";
+import LoginButton from "@/components/buttons/login-button.vue";
+import SignupButton from "@/components/buttons/signup-button.vue";
+import NavBarProfile from "@/components/navigation/desktop/nav-bar-profile.vue";
+import { HomeIcon } from "@heroicons/vue/24/solid";
+import { PhotoIcon } from "@heroicons/vue/24/solid";
+import { useAuth0 } from "@auth0/auth0-vue";
+
+const { isAuthenticated } = useAuth0();
 </script>
 
 <template>
   <div class="nav-bar__container">
-    <nav class="nav-bar">
-      <NavBarBrand />
-      <NavBarTabs />
-      <NavBarButtons />
+    <nav class="navbar bg-base-100 p-2">
+      <div class="flex-1">
+        <NavBarBrand />
+      </div>
+      <div class="flex-none gap-4">
+        <!--        <NavBarDarkMode />-->
+        <template v-if="isAuthenticated">
+          <NavDaemonDropDown />
+          <div class="tabs tabs-boxed">
+            <router-link
+              to="/"
+              exact
+              class="tab tab-lg"
+              active-class="tab-active"
+            >
+              <HomeIcon class="h-5 w-5 text-base-500" />
+            </router-link>
+            <router-link
+              to="/gallery"
+              exact
+              class="tab tab-lg"
+              active-class="tab-active"
+            >
+              <PhotoIcon class="h-5 w-5 text-base-500" />
+            </router-link>
+          </div>
+          <NavBarProfile />
+        </template>
+        <template v-else>
+          <SignupButton />
+          <LoginButton />
+        </template>
+      </div>
     </nav>
   </div>
 </template>

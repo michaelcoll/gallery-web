@@ -14,32 +14,11 @@
  * limitations under the License.
  */
 
-import { defineStore, Store } from "pinia";
-import dayjs from "dayjs";
-
-export type DaemonStore = Store<
-  string,
-  {
-    id?: string;
-    name: string;
-    hostname?: string;
-    version?: string;
-    active: boolean;
-    lastSeen?: dayjs.Dayjs;
-    lastSeenStr?: string;
-  }
->;
-
-export const useDaemonStore = defineStore("daemon", {
-  state: () => {
-    return {
-      id: null,
-      name: "No active daemon",
-      hostname: null,
-      version: null,
-      active: false,
-      lastSeen: null,
-      lastSeenStr: null,
-    };
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  theme: {
+    extend: {},
   },
-});
+  plugins: [require("daisyui")],
+};

@@ -39,9 +39,14 @@ export async function getDaemonList(
 }
 
 export async function daemonIsAlive(daemonId: string): Promise<boolean> {
+  if (daemonId == "") {
+    return false;
+  }
+
   return getApi()
     .then((axiosInstance) =>
       axiosInstance.get<DaemonInfoApi[]>(`/api/v1/daemon/${daemonId}/status`)
     )
-    .then(() => true);
+    .then(() => true)
+    .catch(() => false);
 }

@@ -5,7 +5,6 @@
 }
 
 html {
-  font-size: 10px;
   text-rendering: geometricPrecision;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }

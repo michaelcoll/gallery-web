@@ -65,9 +65,9 @@ function handleErrorOnReject(axios: AxiosInstance): void {
   const handleError = (error: unknown) => {
     if (error && AxiosStatic.isAxiosError(error) && error.response) {
       const status = error.response.status;
-      if (status === 404) {
-        return new NotFoundApiError(error.message);
-      }
+      // if (status === 404) {
+      //   return new NotFoundApiError(error.message);
+      // }
       if (status >= 500) {
         return new InternalServerApiError(error.message);
       }

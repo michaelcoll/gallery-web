@@ -14,5 +14,5 @@ const handleLogin = () => {
 </script>
 
 <template>
-  <button class="button__login" @click="handleLogin">Log In</button>
+  <button class="btn btn-accent" @click="handleLogin">Log In</button>
 </template>
