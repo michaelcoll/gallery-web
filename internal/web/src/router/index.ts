@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const NotFoundPage = () => import("@/pages/not-found-page.vue");
 const GalleryPage = () => import("@/pages/gallery-page.vue");
-const DaemonPage = () => import("@/pages/daemon-page.vue");
+const ProfilePage = () => import("@/pages/profile-page.vue");
 
 const routes = [
   {
@@ -19,9 +19,9 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
-    path: "/daemon",
-    name: "daemon",
-    component: DaemonPage,
+    path: "/profile",
+    name: "profile",
+    component: ProfilePage,
     beforeEnter: authGuard,
   },
   {

@@ -6,12 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <router-link
-    :to="props.path"
-    exact
-    class="nav-bar__tab"
-    active-class="nav-bar__tab--active"
-  >
+  <router-link :to="props.path" exact class="tab" active-class="tab-active">
     {{ props.label }}
   </router-link>
 </template>

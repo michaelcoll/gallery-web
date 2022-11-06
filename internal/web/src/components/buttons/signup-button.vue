@@ -15,5 +15,5 @@ const handleSignUp = () => {
 </script>
 
 <template>
-  <button class="button__sign-up" @click="handleSignUp">Sign Up</button>
+  <button class="btn btn-outline" @click="handleSignUp">Sign Up</button>
 </template>

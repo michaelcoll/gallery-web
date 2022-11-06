@@ -34,7 +34,6 @@ export async function getMediaList(
   page: number,
   pageSize: number
 ): Promise<PhotoApi[]> {
-  console.log(daemonId);
   return getApi(auth0Client)
     .then((axiosInstance) =>
       axiosInstance.get<PhotoApi[]>(
