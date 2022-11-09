@@ -1,9 +1,6 @@
 build: build-web build-go
 
 build-go:
-	go build -v .
-
-build-prod:
 	go build -v -ldflags="-s -w -X 'github.com/michaelcoll/gallery-web/cmd.version=v0.0.0'" .
 
 build-web:
