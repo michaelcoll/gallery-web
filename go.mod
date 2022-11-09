@@ -10,6 +10,7 @@ require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/google/uuid v1.3.0
 	github.com/gwatts/gin-adapter v1.0.0
+	github.com/joeig/gin-cachecontrol v1.1.1
 	github.com/michaelcoll/gallery-proto v0.7.0
 	github.com/spf13/cobra v1.6.1
 	github.com/stretchr/testify v1.8.1

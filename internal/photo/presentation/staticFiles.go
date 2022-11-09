@@ -17,25 +17,32 @@
 package presentation
 
 import (
+	cachecontrol "github.com/joeig/gin-cachecontrol"
 	"github.com/michaelcoll/gallery-web/internal/web"
 	"io/fs"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func serveStatic(router *gin.Engine) {
 	static, _ := fs.Sub(web.Static, "dist")
+	staticIndexFS(http.FS(static), router)
+
 	staticAssets, _ := fs.Sub(web.Static, "dist/assets")
 	staticImg, _ := fs.Sub(web.Static, "dist/img")
-	staticIndexFS(http.FS(static), router)
-	router.StaticFS("/assets", http.FS(staticAssets))
-	router.StaticFS("/img", http.FS(staticImg))
-	router.StaticFS("/apple-touch-icon.png", http.FS(static))
-	router.StaticFS("/icon-192.png", http.FS(static))
-	router.StaticFS("/icon-512.png", http.FS(static))
-	router.StaticFS("/favicon.ico", http.FS(static))
-	router.StaticFS("/manifest.webmanifest", http.FS(static))
+	staticFavIcon, _ := fs.Sub(web.Static, "dist/favicon")
+
+	cachedStatic := router.Group("/")
+	cachedStatic.Use(cachecontrol.New(&cachecontrol.Config{
+		Public:    true,
+		MaxAge:    cachecontrol.Duration(7 * 24 * time.Hour),
+		Immutable: true,
+	}))
+	cachedStatic.StaticFS("/assets", http.FS(staticAssets))
+	cachedStatic.StaticFS("/img", http.FS(staticImg))
+	cachedStatic.StaticFS("/favicon", http.FS(staticFavIcon))
 }
 
 func staticIndexFS(fs http.FileSystem, router *gin.Engine) {
@@ -57,7 +64,7 @@ func createStaticHandler(relativePath string, fs http.FileSystem) gin.HandlerFun
 			c.Writer.WriteHeader(http.StatusNotFound)
 			return
 		}
-		f.Close()
+		_ = f.Close()
 
 		fileServer.ServeHTTP(c.Writer, c.Request)
 	}
