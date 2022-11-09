@@ -54,13 +54,13 @@ $ ./gallery-web serve
 
 ### Commands
 ```
-$ make prepare
+make prepare
 ```
 ```
-$ make
+make
 ```
 
 ## Run from code
 ```
-$ make run
+make run
 ```
