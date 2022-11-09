@@ -27,9 +27,15 @@ import (
 func serveStatic(router *gin.Engine) {
 	static, _ := fs.Sub(web.Static, "dist")
 	staticAssets, _ := fs.Sub(web.Static, "dist/assets")
+	staticImg, _ := fs.Sub(web.Static, "dist/img")
 	staticIndexFS(http.FS(static), router)
-	router.StaticFS("/favicon.ico", http.FS(static))
 	router.StaticFS("/assets", http.FS(staticAssets))
+	router.StaticFS("/img", http.FS(staticImg))
+	router.StaticFS("/apple-touch-icon.png", http.FS(static))
+	router.StaticFS("/icon-192.png", http.FS(static))
+	router.StaticFS("/icon-512.png", http.FS(static))
+	router.StaticFS("/favicon.ico", http.FS(static))
+	router.StaticFS("/manifest.webmanifest", http.FS(static))
 }
 
 func staticIndexFS(fs http.FileSystem, router *gin.Engine) {
