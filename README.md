@@ -1,4 +1,6 @@
-# gallery-web
+![](doc/logo.png)
+
+# gallery-web ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/michaelcoll/gallery-web/build) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/michaelcoll/gallery-web) ![GitHub](https://img.shields.io/github/license/michaelcoll/gallery-web)
 The main web app of the gallery app
 
 ## Usage
