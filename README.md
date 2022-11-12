@@ -1,3 +1,4 @@
+<!--suppress HtmlDeprecatedAttribute -->
 <p align="center">
     <img src="https://raw.githubusercontent.com/michaelcoll/gallery-web/main/doc/logo.png" alt="Logo" /><br />
 </p>
@@ -29,27 +30,14 @@ Global Flags:
 ```
 
 ## Exemple
-```
-$ ./gallery-web serve       
-            ________
-           /\       \
-          /  \       \
-         / /\ \       \
-        / /  \ \       \
-       / /    \ \       \
-      / /      \ \       \
-     / /   /\   \ \       \
-    / /   /  \   \ \       \
-   / /   / /\ \   \ \       \
-  / /   / / /\ \   \_\_______\
-  \ \   \/_/  \ \  / /       /
-   \ \    /----\-\- /       /      gallery web --- v0.0.0
-    \ \__/------\- /       /       ===<< serve mode >>===
-     \/_/        \/_______/
+![](doc/gallery-web.webp)
 
-✓ Listening API on 0.0.0.0:8080
-✓ Listening daemons on 0.0.0.0:9000
-! Registering a new daemon localhost-daemon (v0.0.0) located at localhost:9001... ✓ OK
+## Docker image usage
+```
+docker run -ti --rm \
+-p 9000:9000 \
+-p 8080:8080 \
+ghcr.io/michaelcoll/gallery-web:latest
 ```
 
 ## Build

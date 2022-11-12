@@ -66,7 +66,7 @@ func (c *GrpcController) Serve() {
 
 func (c *GrpcController) Register(_ context.Context, req *daemonv1.RegisterRequest) (*daemonv1.RegisterResponse, error) {
 
-	id, expiresIn, err := c.s.Register(toDomain(req))
+	id, expiresIn, err := c.s.Register(fromRegister(req))
 	if err != nil {
 		return nil, err
 	}
@@ -78,12 +78,12 @@ func (c *GrpcController) Register(_ context.Context, req *daemonv1.RegisterReque
 }
 
 func (c *GrpcController) HeartBeat(_ context.Context, req *daemonv1.HeartBeatRequest) (*daemonv1.HeartBeatResponse, error) {
-	id, err := uuid.Parse(req.Uuid)
+	daemon, err := fromHeartBeat(req)
 	if err != nil {
 		return nil, err
 	}
 
-	err = c.s.HeartBeat(id)
+	err = c.s.HeartBeat(daemon)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +91,7 @@ func (c *GrpcController) HeartBeat(_ context.Context, req *daemonv1.HeartBeatReq
 	return &daemonv1.HeartBeatResponse{}, nil
 }
 
-func toDomain(request *daemonv1.RegisterRequest) *model.Daemon {
+func fromRegister(request *daemonv1.RegisterRequest) *model.Daemon {
 	return &model.Daemon{
 		Id:       uuid.New(),
 		Name:     request.DaemonName,
@@ -102,4 +102,22 @@ func toDomain(request *daemonv1.RegisterRequest) *model.Daemon {
 		Alive:    true,
 		LastSeen: time.Now(),
 	}
+}
+
+func fromHeartBeat(request *daemonv1.HeartBeatRequest) (*model.Daemon, error) {
+	id, err := uuid.Parse(request.Uuid)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.Daemon{
+		Id:       id,
+		Name:     request.DaemonName,
+		Owner:    request.DaemonOwner,
+		Hostname: request.DaemonHost,
+		Port:     int(request.DaemonPort),
+		Version:  request.DaemonVersion,
+		Alive:    true,
+		LastSeen: time.Now(),
+	}, nil
 }

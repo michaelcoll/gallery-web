@@ -16,7 +16,7 @@ dep-upgrade-node:
   && pnpm update --latest
 
 build-go:
-	go build -v -ldflags="-s -w -X 'github.com/michaelcoll/gallery-web/cmd.version=v0.0.1'" .
+	go build -v -ldflags="-s -w -X 'github.com/michaelcoll/gallery-web/cmd.version=v0.0.0'" .
 
 build-web:
 	cd internal/web \
