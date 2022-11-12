@@ -91,13 +91,17 @@ func (s *DaemonService) findInExistingDaemon(d *model.Daemon) *model.Daemon {
 	return d
 }
 
-func (s *DaemonService) HeartBeat(id uuid.UUID) error {
-	daemon, exists := s.daemons[id]
+func (s *DaemonService) HeartBeat(daemon *model.Daemon) error {
+	currentDaemon, exists := s.daemons[daemon.Id]
 
 	if exists {
-		s.activate(daemon)
+		s.activate(currentDaemon)
 	} else {
-		return status.Error(codes.NotFound, "daemon not found")
+		s.daemons[daemon.Id] = daemon
+		_, _, err := s.Register(daemon)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

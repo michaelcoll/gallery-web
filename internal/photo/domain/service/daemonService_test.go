@@ -32,7 +32,7 @@ func TestDaemonService_HeartBeat(t *testing.T) {
 	service.daemons[daemon.Id] = daemon
 
 	// When
-	_ = service.HeartBeat(daemon.Id)
+	_ = service.HeartBeat(daemon)
 
 	// Then
 	assert.Equal(t, true, daemon.Alive, "should be alive")
