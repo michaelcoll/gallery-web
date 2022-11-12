@@ -15,7 +15,7 @@ const handleLogout = () =>
   <div class="dropdown dropdown-end">
     <label tabindex="0" class="btn btn-ghost btn-circle avatar">
       <div class="w-10 rounded-full">
-        <img :src="user.picture" alt="Profile" />
+        <img :src="user.picture" alt="Profile" referrerpolicy="no-referrer" />
       </div>
     </label>
     <ul

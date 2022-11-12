@@ -21,4 +21,21 @@ module.exports = {
     extend: {},
   },
   plugins: [require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        gallery_theme: {
+          primary: "#7ad2e8",
+          secondary: "#3455b2",
+          accent: "#df5e3f",
+          neutral: "#191D24",
+          "base-100": "#2A303C",
+          info: "#3ABFF8",
+          success: "#36D399",
+          warning: "#FBBD23",
+          error: "#df5e3f",
+        },
+      },
+    ],
+  },
 };

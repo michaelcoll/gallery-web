@@ -24,7 +24,7 @@ import (
 )
 
 func (c *ApiController) mediaList(ctx *gin.Context) {
-	daemon, err := c.getDaemonById(ctx)
+	daemon, err := c.getDaemonById(ctx, true)
 	if err != nil {
 		handleError(ctx, err)
 		return
@@ -43,7 +43,7 @@ func (c *ApiController) mediaList(ctx *gin.Context) {
 }
 
 func (c *ApiController) getByHash(ctx *gin.Context) {
-	daemon, err := c.getDaemonById(ctx)
+	daemon, err := c.getDaemonById(ctx, true)
 	if err != nil {
 		handleError(ctx, err)
 		return
@@ -61,9 +61,7 @@ func (c *ApiController) getByHash(ctx *gin.Context) {
 
 func (c *ApiController) contentByHash(ctx *gin.Context) {
 
-	ctx.Writer.Header().Set("Cache-Control", "public, max-age=604800, immutable")
-
-	daemon, err := c.getDaemonById(ctx)
+	daemon, err := c.getDaemonById(ctx, false)
 	if err != nil {
 		handleError(ctx, err)
 		return
@@ -81,9 +79,7 @@ func (c *ApiController) contentByHash(ctx *gin.Context) {
 
 func (c *ApiController) thumbnailByHash(ctx *gin.Context) {
 
-	ctx.Writer.Header().Set("Cache-Control", "public, max-age=604800, immutable")
-
-	daemon, err := c.getDaemonById(ctx)
+	daemon, err := c.getDaemonById(ctx, false)
 	if err != nil {
 		handleError(ctx, err)
 		return

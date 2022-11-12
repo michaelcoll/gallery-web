@@ -31,15 +31,15 @@ onUnmounted(() => {
         <BoltIcon class="h-5 w-5 text-base-500" />
       </template>
       <template v-else>
-        <BoltSlashIcon class="h-5 w-5 text-red-500" />
+        <BoltSlashIcon class="h-5 w-5 text-error/90" />
       </template>
     </label>
     <div
       tabindex="0"
-      class="dropdown-content card card-compact w-72 shadow-xl mt-4 bg-info-content"
+      class="dropdown-content card card-compact w-72 shadow-xl mt-4 bg-neutral"
     >
       <div class="card-body">
-        <h3 class="card-title text-accent text-sm">Daemon connection</h3>
+        <h3 class="card-title text-primary text-sm">Daemon connection</h3>
         <div class="flex flex-row gap-2">
           <div class="flex h-5 w-5">
             <template v-if="daemonStore.active">
@@ -51,10 +51,7 @@ onUnmounted(() => {
               />
             </template>
             <template v-else>
-              <XCircleIcon
-                class="h-5 w-5 text-red-500 absolute inline-flex animate-ping opacity-75"
-              />
-              <XCircleIcon class="relative inline-flex h-5 w-5 text-red-500" />
+              <XCircleIcon class="relative inline-flex h-5 w-5 text-error/90" />
             </template>
           </div>
 
