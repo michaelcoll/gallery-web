@@ -15,7 +15,6 @@
  */
 
 import type dayjs from "dayjs";
-import { getAccessToken } from "@/lib/common-api";
 import type { PhotoApi } from "@/lib/media-api";
 import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
 
@@ -35,20 +34,17 @@ export async function buildImage(
   daemonId: string,
   date: dayjs.Dayjs
 ): Promise<GalleryImage> {
-  return getAccessToken(auth0Client).then((accessToken) =>
-    mapGalleryImage(photo, daemonId, accessToken, date)
-  );
+  return mapGalleryImage(photo, daemonId, date);
 }
 
 function mapGalleryImage(
   photo: PhotoApi,
   daemonId: string,
-  accessToken: string,
   date: dayjs.Dayjs
 ): GalleryImage {
   return {
-    largeURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}/content?access-token=${accessToken}`,
-    thumbnailURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}/thumbnail?access-token=${accessToken}`,
+    largeURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}/content`,
+    thumbnailURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}/thumbnail`,
     width: photo.xDimension,
     height: photo.yDimension,
     date: date,

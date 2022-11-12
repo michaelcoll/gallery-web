@@ -25,9 +25,10 @@ import (
 )
 
 var statusMapping = map[codes.Code]int{
-	codes.NotFound:        http.StatusNotFound,
-	codes.InvalidArgument: http.StatusBadRequest,
-	codes.Unavailable:     http.StatusServiceUnavailable,
+	codes.NotFound:         http.StatusNotFound,
+	codes.InvalidArgument:  http.StatusBadRequest,
+	codes.Unavailable:      http.StatusServiceUnavailable,
+	codes.PermissionDenied: http.StatusForbidden,
 }
 
 func handleError(ctx *gin.Context, err error) {

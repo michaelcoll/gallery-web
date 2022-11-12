@@ -28,13 +28,18 @@ import (
 )
 
 func (c *ApiController) daemonList(ctx *gin.Context) {
-	list := c.daemonService.List(extractEmailFromToken(ctx))
+	email, err := extractEmailFromToken(ctx)
+	if err != nil {
+		handleError(ctx, err)
+	}
+
+	list := c.daemonService.List(email)
 
 	ctx.JSON(http.StatusOK, list)
 }
 
 func (c *ApiController) daemonById(ctx *gin.Context) {
-	daemon, err := c.getDaemonById(ctx)
+	daemon, err := c.getDaemonById(ctx, true)
 	if err != nil {
 		handleError(ctx, err)
 		return
@@ -57,7 +62,7 @@ func (c *ApiController) daemonStatusById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "")
 }
 
-func (c *ApiController) getDaemonById(ctx *gin.Context) (*model.Daemon, error) {
+func (c *ApiController) getDaemonById(ctx *gin.Context, checkOwner bool) (*model.Daemon, error) {
 	id, err := uuid.Parse(ctx.Param("id"))
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "daemon id not valid (%s)", id)
@@ -66,8 +71,15 @@ func (c *ApiController) getDaemonById(ctx *gin.Context) (*model.Daemon, error) {
 	if err != nil {
 		return nil, err
 	}
-	if daemon.Owner != extractEmailFromToken(ctx) {
-		return nil, status.Error(codes.NotFound, "daemon not found")
+
+	if checkOwner {
+		email, err := extractEmailFromToken(ctx)
+		if err != nil {
+			return nil, err
+		}
+		if daemon.Owner != email {
+			return nil, status.Error(codes.NotFound, "daemon not found")
+		}
 	}
 
 	return daemon, nil

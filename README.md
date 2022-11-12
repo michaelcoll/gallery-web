@@ -10,7 +10,6 @@
     <img src="https://img.shields.io/github/license/michaelcoll/gallery-web" alt="Logo" />
 </p>
 
-
 # gallery-web
 The main web app of the gallery app
 
@@ -32,13 +31,21 @@ Global Flags:
 ## Exemple
 ```
 $ ./gallery-web serve       
-   ______
-  /\_____\
-  \ \__/_/_
-  /\ \_____\  gallery web v0.0.0
-  \ \/ / / /     -= serve mode =-
-   \/_/\/ /
-      \/_/
+            ________
+           /\       \
+          /  \       \
+         / /\ \       \
+        / /  \ \       \
+       / /    \ \       \
+      / /      \ \       \
+     / /   /\   \ \       \
+    / /   /  \   \ \       \
+   / /   / /\ \   \ \       \
+  / /   / / /\ \   \_\_______\
+  \ \   \/_/  \ \  / /       /
+   \ \    /----\-\- /       /      gallery web --- v0.0.0
+    \ \__/------\- /       /       ===<< serve mode >>===
+     \/_/        \/_______/
 
 ✓ Listening API on 0.0.0.0:8080
 ✓ Listening daemons on 0.0.0.0:9000

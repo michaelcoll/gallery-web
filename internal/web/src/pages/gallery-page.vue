@@ -75,7 +75,7 @@ if (daemonStore.id) {
         </template>
         <template v-else>
           <div class="hero min-h-screen">
-            <div class="hero-overlay bg-base"></div>
+            <div class="hero-overlay bg-transparent"></div>
             <div class="hero-content text-center text-neutral-content">
               <div class="max-w-md">
                 <BoltSlashIcon class="h-20 w-20 text-base-content m-auto" />

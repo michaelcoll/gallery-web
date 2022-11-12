@@ -33,7 +33,7 @@ export async function registerWatcher(
 
   intervalId.value = setInterval(async function () {
     await testDaemonIsAlive(auth0Client, daemonStore);
-  }, 2000);
+  }, 10000);
 }
 
 export function unregisterWatcher() {

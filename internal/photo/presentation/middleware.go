@@ -18,16 +18,18 @@ package presentation
 
 import (
 	"context"
-	"github.com/auth0/go-jwt-middleware/v2/jwks"
-	"github.com/gin-contrib/gzip"
-	adapter "github.com/gwatts/gin-adapter"
 	"net/url"
 	"time"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware/v2"
+	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/auth0/go-jwt-middleware/v2/validator"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	adapter "github.com/gwatts/gin-adapter"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -90,7 +92,10 @@ func (c EmailCustomClaims) Validate(_ context.Context) error {
 	return nil
 }
 
-func extractEmailFromToken(ctx *gin.Context) string {
-	claims := ctx.Request.Context().Value(jwtmiddleware.ContextKey{}).(*validator.ValidatedClaims)
-	return claims.CustomClaims.(*EmailCustomClaims).Email
+func extractEmailFromToken(ctx *gin.Context) (string, error) {
+	if claims, ok := ctx.Request.Context().Value(jwtmiddleware.ContextKey{}).(*validator.ValidatedClaims); ok {
+		return claims.CustomClaims.(*EmailCustomClaims).Email, nil
+	} else {
+		return "", status.Error(codes.PermissionDenied, "email claim not found")
+	}
 }
