@@ -24,14 +24,11 @@ jobs:
 
       - name: Prepare Vue App
         run: |
-          cd internal/web
-          corepack enable && corepack prepare
-          pnpm i
+          make prepare
 
       - name: Build Vue App
         run: |
-          cd internal/web
-          pnpm run build
+          make build-web
 
       - name: Install dependencies
         run: |

@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # build and publish in parallel: linux/amd64, linux/arm64, windows/amd64
-        goos: [linux, windows, darwin]
+        # build and publish in parallel: linux/amd64, linux/arm64
+        goos: [linux]
         goarch: [amd64, arm64]
         exclude:
           - goarch: arm64
@@ -29,14 +29,11 @@ jobs:
 
       - name: Prepare Vue App
         run: |
-          cd internal/web
-          corepack enable && corepack prepare
-          pnpm i
+          make prepare
 
       - name: Build Vue App
         run: |
-          cd internal/web
-          pnpm run build
+          make build-web
 
       - uses: wangyoucao577/go-release-action@v1.32
         with:
