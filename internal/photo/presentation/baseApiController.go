@@ -25,6 +25,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
+
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/service"
 )
 
@@ -62,12 +63,11 @@ func (c *ApiController) Serve() {
 	private.GET("/daemon", c.daemonList)
 	private.GET("/daemon/:id", c.daemonById)
 	private.GET("/daemon/:id/media", c.mediaList)
-	private.GET("/daemon/:id/media/:hash", c.getByHash)
 
 	public.GET("/daemon/:id/status", c.daemonStatusById)
 
-	mediaGroup.GET("/daemon/:id/media/:hash/content", c.contentByHash)
-	mediaGroup.GET("/daemon/:id/media/:hash/thumbnail", c.thumbnailByHash)
+	mediaGroup.GET("/daemon/:id/media/:hash", c.contentByHash)
+	mediaGroup.GET("/daemon/:id/thumbnail/:hash", c.thumbnailByHash)
 
 	// Listen and serve on 0.0.0.0:8080
 	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))

@@ -23,9 +23,8 @@ import (
 )
 
 type PhotoServiceCaller interface {
-	List(ctx context.Context, d *model.Daemon, page int32, pageSize int32) ([]*model.Photo, error)
-	GetByHash(ctx context.Context, d *model.Daemon, hash string) (*model.Photo, error)
+	List(ctx context.Context, d *model.Daemon, page uint32, pageSize uint32) ([]*model.Photo, error)
 	Exists(ctx context.Context, d *model.Daemon, hash string) (bool, error)
 	ContentByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error)
-	ThumbnailByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error)
+	ThumbnailByHash(ctx context.Context, d *model.Daemon, hash string, width uint32, height uint32) ([]byte, string, error)
 }

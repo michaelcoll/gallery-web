@@ -31,5 +31,6 @@ type Daemon struct {
 	Port     int       `json:"port"`
 	Version  string    `json:"version"`
 	Alive    bool      `json:"alive"`
+	New      bool      `json:"-"`
 	LastSeen time.Time `json:"lastSeen"`
 }

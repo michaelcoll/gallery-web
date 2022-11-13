@@ -17,11 +17,14 @@
 package presentation
 
 import (
-	cachecontrol "github.com/joeig/gin-cachecontrol"
-	"github.com/michaelcoll/gallery-web/internal/web"
 	"io/fs"
 	"net/http"
 	"time"
+
+	"github.com/gin-contrib/gzip"
+	cachecontrol "github.com/joeig/gin-cachecontrol"
+
+	"github.com/michaelcoll/gallery-web/internal/web"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,11 +38,15 @@ func serveStatic(router *gin.Engine) {
 	staticFavIcon, _ := fs.Sub(web.Static, "dist/favicon")
 
 	cachedStatic := router.Group("/")
+
+	// Add middlewares
 	cachedStatic.Use(cachecontrol.New(&cachecontrol.Config{
 		Public:    true,
 		MaxAge:    cachecontrol.Duration(7 * 24 * time.Hour),
 		Immutable: true,
 	}))
+	cachedStatic.Use(gzip.Gzip(gzip.DefaultCompression))
+
 	cachedStatic.StaticFS("/assets", http.FS(staticAssets))
 	cachedStatic.StaticFS("/img", http.FS(staticImg))
 	cachedStatic.StaticFS("/favicon", http.FS(staticFavIcon))

@@ -28,6 +28,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	photov1 "github.com/michaelcoll/gallery-proto/gen/proto/go/photo/v1"
+
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
 )
 
@@ -38,7 +39,7 @@ func New() *PhotoServiceGrpcCaller {
 	return &PhotoServiceGrpcCaller{}
 }
 
-func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon, page int32, pageSize int32) ([]*model.Photo, error) {
+func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon, page uint32, pageSize uint32) ([]*model.Photo, error) {
 
 	client, conn, err := createClient(d)
 	if err != nil {
@@ -61,24 +62,6 @@ func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon, page
 	}
 
 	return photos, nil
-}
-
-func (c *PhotoServiceGrpcCaller) GetByHash(ctx context.Context, d *model.Daemon, hash string) (*model.Photo, error) {
-
-	client, conn, err := createClient(d)
-	if err != nil {
-		return nil, status.Errorf(codes.Unavailable, "can't connect to the daemon (%v)", err)
-	}
-	defer closeConnection(conn)
-
-	resp, err := client.GetByHash(ctx, &photov1.GetByHashRequest{
-		Hash: hash,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	return toDomain(resp.Photo), nil
 }
 
 func (c *PhotoServiceGrpcCaller) Exists(ctx context.Context, d *model.Daemon, hash string) (bool, error) {
@@ -130,7 +113,7 @@ func (c *PhotoServiceGrpcCaller) ContentByHash(ctx context.Context, d *model.Dae
 	}
 }
 
-func (c *PhotoServiceGrpcCaller) ThumbnailByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error) {
+func (c *PhotoServiceGrpcCaller) ThumbnailByHash(ctx context.Context, d *model.Daemon, hash string, width uint32, height uint32) ([]byte, string, error) {
 
 	client, conn, err := createClient(d)
 	if err != nil {
@@ -139,7 +122,9 @@ func (c *PhotoServiceGrpcCaller) ThumbnailByHash(ctx context.Context, d *model.D
 	defer closeConnection(conn)
 
 	stream, err := client.ThumbnailByHash(ctx, &photov1.ThumbnailByHashRequest{
-		Hash: hash,
+		Hash:   hash,
+		Width:  width,
+		Height: height,
 	})
 	if err != nil {
 		return nil, "", err

@@ -33,30 +33,13 @@ func (c *ApiController) mediaList(ctx *gin.Context) {
 	page, _ := strconv.Atoi(ctx.DefaultQuery("page", "0"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "25"))
 
-	photos, err := c.photoService.List(ctx.Request.Context(), daemon, int32(page), int32(pageSize))
+	photos, err := c.photoService.List(ctx.Request.Context(), daemon, uint32(page), uint32(pageSize))
 	if err != nil {
 		handleError(ctx, err)
 		return
 	}
 
 	ctx.JSON(http.StatusOK, photos)
-}
-
-func (c *ApiController) getByHash(ctx *gin.Context) {
-	daemon, err := c.getDaemonById(ctx, true)
-	if err != nil {
-		handleError(ctx, err)
-		return
-	}
-
-	hash := ctx.Param("hash")
-	photo, err := c.photoService.GetByHash(ctx.Request.Context(), daemon, hash)
-	if err != nil {
-		handleError(ctx, err)
-		return
-	}
-
-	ctx.JSON(http.StatusOK, photo)
 }
 
 func (c *ApiController) contentByHash(ctx *gin.Context) {
@@ -86,7 +69,9 @@ func (c *ApiController) thumbnailByHash(ctx *gin.Context) {
 	}
 
 	hash := ctx.Param("hash")
-	photoContent, contentType, err := c.photoService.ThumbnailByHash(ctx.Request.Context(), daemon, hash)
+	w, _ := strconv.Atoi(ctx.DefaultQuery("width", "0"))
+	h, _ := strconv.Atoi(ctx.DefaultQuery("height", "0"))
+	photoContent, contentType, err := c.photoService.ThumbnailByHash(ctx.Request.Context(), daemon, hash, uint32(w), uint32(h))
 	if err != nil {
 		handleError(ctx, err)
 		return

@@ -28,6 +28,7 @@ import (
 	"google.golang.org/grpc"
 
 	daemonv1 "github.com/michaelcoll/gallery-proto/gen/proto/go/daemon/v1"
+
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/service"
 )
@@ -100,6 +101,7 @@ func fromRegister(request *daemonv1.RegisterRequest) *model.Daemon {
 		Port:     int(request.DaemonPort),
 		Version:  request.DaemonVersion,
 		Alive:    true,
+		New:      true,
 		LastSeen: time.Now(),
 	}
 }
@@ -117,7 +119,7 @@ func fromHeartBeat(request *daemonv1.HeartBeatRequest) (*model.Daemon, error) {
 		Hostname: request.DaemonHost,
 		Port:     int(request.DaemonPort),
 		Version:  request.DaemonVersion,
-		Alive:    true,
+		Alive:    false,
 		LastSeen: time.Now(),
 	}, nil
 }
