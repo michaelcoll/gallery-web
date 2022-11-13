@@ -43,8 +43,8 @@ function mapGalleryImage(
   date: dayjs.Dayjs
 ): GalleryImage {
   return {
-    largeURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}/content`,
-    thumbnailURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}/thumbnail`,
+    largeURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}`,
+    thumbnailURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/thumbnail/${photo.hash}`,
     width: photo.xDimension,
     height: photo.yDimension,
     date: date,

@@ -32,5 +32,9 @@ test:
 run:
 	go run . serve
 
+run-dev:
+	cd internal/web \
+  && pnpm run dev
+
 run-docker:
 	docker run -ti --rm -p 8080:8080 web:latest

@@ -52,14 +52,16 @@ func NewDaemonService(c PhotoServiceCaller) DaemonService {
 	}
 }
 
-func (s *DaemonService) Register(newDaemon *model.Daemon) (uuid.UUID, int32, error) {
-	fmt.Printf("%s Registering a new daemon %s (%s) located at %s:%s...",
-		color.GreenString("!"),
-		color.GreenString(newDaemon.Name),
-		color.GreenString(newDaemon.Version),
-		color.CyanString(newDaemon.Hostname), color.CyanString(strconv.Itoa(newDaemon.Port)))
-
+func (s *DaemonService) Register(newDaemon *model.Daemon) (uuid.UUID, uint32, error) {
 	d := s.findInExistingDaemon(newDaemon)
+
+	if d.New {
+		fmt.Printf("%s Registering a new daemon %s (%s) located at %s:%s...",
+			color.GreenString("!"),
+			color.GreenString(d.Name),
+			color.GreenString(d.Version),
+			color.CyanString(d.Hostname), color.CyanString(strconv.Itoa(d.Port)))
+	}
 
 	if s.validateDaemonConnection(d) {
 		s.activate(d)
@@ -82,8 +84,7 @@ func (s *DaemonService) findInExistingDaemon(d *model.Daemon) *model.Daemon {
 		if d.Name == daemon.Name &&
 			d.Owner == daemon.Owner &&
 			d.Hostname == daemon.Hostname {
-			daemon.Alive = true
-			_, _ = color.New(color.FgGreen, color.Bold).Print(" ✓ Reconnected ")
+			daemon.Alive = false
 			return daemon
 		}
 	}
@@ -97,7 +98,6 @@ func (s *DaemonService) HeartBeat(daemon *model.Daemon) error {
 	if exists {
 		s.activate(currentDaemon)
 	} else {
-		s.daemons[daemon.Id] = daemon
 		_, _, err := s.Register(daemon)
 		if err != nil {
 			return err
@@ -109,7 +109,7 @@ func (s *DaemonService) HeartBeat(daemon *model.Daemon) error {
 
 func (s *DaemonService) activate(d *model.Daemon) {
 	if !d.Alive {
-		fmt.Printf("%s Daemon %s reconnected.\n",
+		fmt.Printf("%s Daemon %s reconnected ...",
 			color.GreenString("!"),
 			color.GreenString(d.Name))
 	}

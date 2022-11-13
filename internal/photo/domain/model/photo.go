@@ -20,10 +20,10 @@ type Photo struct {
 	Hash string `json:"hash"`
 
 	DateTime     string `json:"dateTime,omitempty"`
-	Iso          int32  `json:"iso,omitempty"`
+	Iso          uint32 `json:"iso,omitempty"`
 	ExposureTime string `json:"exposureTime,omitempty"`
-	XDimension   int32  `json:"xDimension,omitempty"`
-	YDimension   int32  `json:"yDimension,omitempty"`
+	XDimension   uint32 `json:"xDimension,omitempty"`
+	YDimension   uint32 `json:"yDimension,omitempty"`
 	Model        string `json:"model,omitempty"`
 	FNumber      string `json:"fNumber,omitempty"`
 }
