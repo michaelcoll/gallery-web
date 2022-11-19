@@ -39,7 +39,7 @@ export async function getDaemonList(
 }
 
 export async function daemonIsAlive(daemonId: string): Promise<boolean> {
-  if (daemonId == "") {
+  if (daemonId == "" || daemonId == null) {
     return false;
   }
 

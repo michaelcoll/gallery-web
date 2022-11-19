@@ -8,9 +8,9 @@ import dayjs from "dayjs";
 import "dayjs/locale/fr";
 
 const props = defineProps({
-  galleryID: String,
-  day: String,
-  images: Array,
+  id: { type: String, required: true },
+  day: { type: String, required: true },
+  images: { type: Array, required: true },
 });
 
 const imagesData = ref([]);
@@ -21,7 +21,7 @@ dayjs.locale("fr");
 onMounted(() => {
   if (!lightbox.value) {
     lightbox.value = new PhotoSwipeLightbox({
-      gallery: "#" + props.galleryID,
+      gallery: "#" + props.id,
       children: "figure",
       pswpModule: () => import("photoswipe"),
       spacing: 0.5,
@@ -47,7 +47,7 @@ onUnmounted(() => {
 
 <template>
   <span class="m-2 text-sm">{{ dayjs(day).format("ddd D MMM") }}</span>
-  <div :id="galleryID" class="gallery-container">
+  <div :id="id" class="gallery-container">
     <figure v-for="(image, key) in imagesData" :key="key" class="gallery-item">
       <a
         :href="image.largeURL"

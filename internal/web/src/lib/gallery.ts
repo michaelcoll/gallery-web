@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import type dayjs from "dayjs";
+import dayjs from "dayjs";
 import type { PhotoApi } from "@/lib/media-api";
-import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
+import { Ref } from "vue";
 
 const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 
@@ -28,12 +28,32 @@ export interface GalleryImage {
   date: dayjs.Dayjs;
 }
 
-export async function buildImage(
-  auth0Client: Auth0VueClient,
+export function updateImageMap(
+  photos: PhotoApi[],
+  imagesMap: Ref<Map<string, Array<GalleryImage>>>,
+  daemonId: string
+) {
+  if (photos) {
+    for (const photo of photos) {
+      const parsedDate = dayjs(photo.dateTime);
+      const day = parsedDate.format("YYYY-MM-DD");
+
+      const galleryImage = buildImage(photo, daemonId, parsedDate);
+      const gallery = imagesMap.value.get(day);
+      if (gallery) {
+        gallery.push(galleryImage);
+      } else {
+        imagesMap.value.set(day, new Array<GalleryImage>(galleryImage));
+      }
+    }
+  }
+}
+
+function buildImage(
   photo: PhotoApi,
   daemonId: string,
   date: dayjs.Dayjs
-): Promise<GalleryImage> {
+): GalleryImage {
   return mapGalleryImage(photo, daemonId, date);
 }
 

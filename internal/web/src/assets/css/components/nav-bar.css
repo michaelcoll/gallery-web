@@ -8,7 +8,6 @@
   box-shadow: rgb(61, 63, 64) 0-1.5px 0 inset;
 
   z-index: 300;
-  background-color: var(--black);
 }
 
 .nav-bar {

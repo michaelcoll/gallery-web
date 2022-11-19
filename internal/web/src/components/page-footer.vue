@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <footer class="footer p-10 bg-neutral text-neutral-content">
+  <footer class="footer p-10 bg-base-100 text-neutral-content">
     <div>
       <img class="h-24" src="/img/logo.webp" alt="gallery logo" height="36px" />
     </div>

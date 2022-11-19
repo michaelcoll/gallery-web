@@ -89,13 +89,11 @@ function useDaemon(
   store.hostname = hostname;
   store.version = version;
   store.active = true;
-  console.log("active");
 }
 
 function deactivateCurrentDaemon(store: DaemonStore) {
   store.active = false;
   store.lastSeen = dayjs();
-  console.log("deactivate");
 }
 
 function updateLastSeen(store: DaemonStore) {

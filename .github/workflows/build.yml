@@ -39,3 +39,6 @@ jobs:
 
       - name: Test
         run: go test ./...
+
+      - name: Web ESLint
+        run: make vue-lint
