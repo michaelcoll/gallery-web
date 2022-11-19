@@ -24,14 +24,6 @@ const { isAuthenticated } = useAuth0();
           <NavDaemonDropDown />
           <div class="tabs tabs-boxed">
             <router-link
-              to="/"
-              exact
-              class="tab tab-lg"
-              active-class="tab-active"
-            >
-              <HomeIcon class="h-5 w-5 text-base-500" />
-            </router-link>
-            <router-link
               to="/gallery"
               exact
               class="tab tab-lg"
@@ -43,6 +35,16 @@ const { isAuthenticated } = useAuth0();
           <NavBarProfile />
         </template>
         <template v-else>
+          <div class="tabs tabs-boxed">
+            <router-link
+              to="/"
+              exact
+              class="tab tab-lg"
+              active-class="tab-active"
+            >
+              <HomeIcon class="h-5 w-5 text-base-500" />
+            </router-link>
+          </div>
           <SignupButton />
           <LoginButton />
         </template>

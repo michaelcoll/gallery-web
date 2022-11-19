@@ -32,9 +32,13 @@ test:
 run:
 	go run . serve
 
-run-dev:
+run-vue:
 	cd internal/web \
   && pnpm run dev
+
+vue-lint:
+	cd internal/web \
+  && pnpm run lint
 
 run-docker:
 	docker run -ti --rm -p 8080:8080 web:latest
