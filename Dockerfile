@@ -20,10 +20,10 @@ COPY . .
 COPY --from=build-node /node/src/internal/web/dist /go/src/app/internal/web/dist
 
 RUN go mod download
-RUN go build -o /go/bin/gallery-web -ldflags="-s -w -X 'github.com/michaelcoll/gallery-web/cmd.version=$VERSION'"
+RUN CGO_ENABLED=0 go build -o /go/bin/gallery-web -ldflags="-s -w -X 'github.com/michaelcoll/gallery-web/cmd.version=$VERSION'"
 
 # Now copy it into our base image.
-FROM gcr.io/distroless/base-debian11:nonroot
+FROM gcr.io/distroless/static-debian11:nonroot
 
 COPY --from=build-go /go/bin/gallery-web /bin/gallery-web
 
