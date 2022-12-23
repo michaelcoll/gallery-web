@@ -1,14 +1,4 @@
 # Start by building the application.
-FROM node:18 as build-node
-
-WORKDIR /node/src
-COPY . .
-
-RUN cd internal/web \
-    	&& corepack enable && corepack prepare \
-    	&& pnpm i \
-      && pnpm run build
-
 FROM golang:1.19 as build-go
 
 ARG BUILDTIME

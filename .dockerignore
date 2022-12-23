@@ -1,7 +1,6 @@
 .github
 .idea
 doc
-internal/web/dist
 internal/web/node_modules
 .editorconfig
 .gitignore
