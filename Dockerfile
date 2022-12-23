@@ -7,7 +7,6 @@ ARG REVISION
 
 WORKDIR /go/src/app
 COPY . .
-COPY --from=build-node /node/src/internal/web/dist /go/src/app/internal/web/dist
 
 RUN go mod download
 RUN CGO_ENABLED=0 go build -o /go/bin/gallery-web -ldflags="-s -w -X 'github.com/michaelcoll/gallery-web/cmd.version=$VERSION'"
