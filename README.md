@@ -6,7 +6,7 @@
     A simple decentralized photo gallery
 </p>
 <p align="center">
-    <img src="https://img.shields.io/github/workflow/status/michaelcoll/gallery-web/build" alt="Logo" />
+    <img src="https://img.shields.io/github/actions/workflow/status/michaelcoll/gallery-web/build.yml?branch=main" alt="Logo" />
     <img src="https://img.shields.io/github/v/release/michaelcoll/gallery-web" alt="Logo" />
     <img src="https://img.shields.io/github/license/michaelcoll/gallery-web" alt="Logo" />
 </p>
