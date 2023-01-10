@@ -50,7 +50,7 @@ export async function useAuthBearerToken(
 
   axios.interceptors.request.use((config) => ({
     ...config,
-    headers: { ...config.headers, Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken}` },
   }));
 }
 
