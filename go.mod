@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/auth0/go-jwt-middleware/v2 v2.1.0
-	github.com/fatih/color v1.13.0
+	github.com/fatih/color v1.14.1
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.8.2
