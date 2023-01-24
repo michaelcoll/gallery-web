@@ -1,8 +1,10 @@
-import { createAuth0 } from "@auth0/auth0-vue";
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import App from "./app.vue";
 import "./assets/css/styles.css";
+
+import { createAuth0 } from "@auth0/auth0-vue";
+import { createPinia } from "pinia";
+import { createApp } from "vue";
+
+import App from "./app.vue";
 import router from "./router";
 
 const pinia = createPinia();

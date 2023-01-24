@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
 import type { AxiosInstance } from "axios";
 import AxiosStatic from "axios";
-import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
 
 const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 

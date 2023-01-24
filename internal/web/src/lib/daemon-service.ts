@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
+import { Auth0VueClient } from "@auth0/auth0-vue";
+import dayjs from "dayjs";
+import { ref } from "vue";
+
 import { daemonIsAlive, getDaemonList } from "@/lib/daemon-api";
 import { DaemonStore } from "@/stores/daemon";
-import { Auth0VueClient } from "@auth0/auth0-vue";
-import { ref } from "vue";
-import dayjs from "dayjs";
 
 const intervalId = ref();
 

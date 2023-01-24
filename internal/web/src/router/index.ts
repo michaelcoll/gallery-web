@@ -1,6 +1,7 @@
-import HomePage from "@/pages/home-page.vue";
 import { authGuard } from "@auth0/auth0-vue";
 import { createRouter, createWebHistory } from "vue-router";
+
+import HomePage from "@/pages/home-page.vue";
 
 const NotFoundPage = () => import("@/pages/not-found-page.vue");
 const GalleryPage = () => import("@/pages/gallery-page.vue");

@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { useDaemonStore } from "@/stores/daemon";
-import { onMounted, onUnmounted } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 import { BoltIcon } from "@heroicons/vue/24/solid";
 import { BoltSlashIcon } from "@heroicons/vue/24/solid";
 import { CheckCircleIcon } from "@heroicons/vue/24/solid";
 import { XCircleIcon } from "@heroicons/vue/24/solid";
-import { registerWatcher, unregisterWatcher } from "@/lib/daemon-service";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { onMounted, onUnmounted } from "vue";
+
+import { registerWatcher, unregisterWatcher } from "@/lib/daemon-service";
+import { useDaemonStore } from "@/stores/daemon";
 
 const daemonStore = useDaemonStore();
 dayjs.extend(duration);

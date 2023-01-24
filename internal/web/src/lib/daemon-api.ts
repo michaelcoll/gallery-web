@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-import { getApi } from "@/lib/common-api";
 import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
+
+import { getApi } from "@/lib/common-api";
 
 interface DaemonInfoApi {
   id: string;
