@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import PageLayout from "@/components/page-layout.vue";
 import { useAuth0 } from "@auth0/auth0-vue";
+
+import PageLayout from "@/components/page-layout.vue";
 
 const { user } = useAuth0();
 </script>

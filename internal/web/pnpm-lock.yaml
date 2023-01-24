@@ -16,6 +16,7 @@ specifiers:
   daisyui: ^2.47.0
   dayjs: ^1.11.7
   eslint: ^8.32.0
+  eslint-plugin-simple-import-sort: ^9.0.0
   eslint-plugin-vue: ^9.9.0
   jsdom: ^21.1.0
   npm-run-all: ^4.1.5
@@ -59,6 +60,7 @@ devDependencies:
   '@vue/tsconfig': 0.1.3_@types+node@18.11.18
   autoprefixer: 10.4.13_postcss@8.4.21
   eslint: 8.32.0
+  eslint-plugin-simple-import-sort: 9.0.0_eslint@8.32.0
   eslint-plugin-vue: 9.9.0_eslint@8.32.0
   jsdom: 21.1.0
   npm-run-all: 4.1.5
@@ -1405,6 +1407,14 @@ packages:
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       prettier: 2.8.3
       prettier-linter-helpers: 1.0.0
+    dev: true
+
+  /eslint-plugin-simple-import-sort/9.0.0_eslint@8.32.0:
+    resolution: {integrity: sha512-PtrLjyXP8kjRneWT1n0b99y/2Fyup37we7FVoWsI61/O7x4ztLohzhep/pxI/cYlECr/cQ2j6utckdvWpVwXNA==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 8.32.0
     dev: true
 
   /eslint-plugin-vue/9.9.0_eslint@8.32.0:

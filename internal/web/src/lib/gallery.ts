@@ -15,8 +15,9 @@
  */
 
 import dayjs from "dayjs";
-import type { PhotoApi } from "@/lib/media-api";
 import { Ref } from "vue";
+
+import type { PhotoApi } from "@/lib/media-api";
 
 const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 

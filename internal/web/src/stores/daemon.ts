@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { defineStore, Store } from "pinia";
 import dayjs from "dayjs";
+import { defineStore, Store } from "pinia";
 
 export type DaemonStore = Store<
   string,

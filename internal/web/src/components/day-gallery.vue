@@ -1,11 +1,12 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from "vue";
-import PhotoSwipeLightbox from "photoswipe/lightbox";
-import PhotoSwipeDynamicCaption from "photoswipe-dynamic-caption-plugin";
 import "photoswipe/style.css";
 import "photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.css";
-import dayjs from "dayjs";
 import "dayjs/locale/fr";
+
+import dayjs from "dayjs";
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import PhotoSwipeDynamicCaption from "photoswipe-dynamic-caption-plugin";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const props = defineProps({
   id: { type: String, required: true },

@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import PageLayout from "@/components/page-layout.vue";
-import Gallery from "@/components/day-gallery.vue";
-import type { Ref } from "vue";
-import { onMounted, onUnmounted, ref } from "vue";
-import { useDaemonStore } from "@/stores/daemon";
-import { getMediaList } from "@/lib/media-api";
-import type { GalleryImage } from "@/lib/gallery";
 import { useAuth0 } from "@auth0/auth0-vue";
 import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
 import { BoltSlashIcon } from "@heroicons/vue/24/solid";
+import type { Ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
+
+import Gallery from "@/components/day-gallery.vue";
+import PageLayout from "@/components/page-layout.vue";
+import type { GalleryImage } from "@/lib/gallery";
 import { updateImageMap } from "@/lib/gallery";
+import { getMediaList } from "@/lib/media-api";
+import { useDaemonStore } from "@/stores/daemon";
 
 const imagesMap: Ref<Map<string, Array<GalleryImage>>> = ref(new Map());
 const currentPage = ref(0);
