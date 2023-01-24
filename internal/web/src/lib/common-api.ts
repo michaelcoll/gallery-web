@@ -22,8 +22,6 @@ const apiServerUrl = import.meta.env.VITE_API_SERVER_URL;
 
 export class ApiError extends Error {}
 
-export class NotFoundApiError extends ApiError {}
-
 export class InternalServerApiError extends ApiError {}
 
 export async function getApi(
@@ -48,10 +46,10 @@ export async function useAuthBearerToken(
 ): Promise<void> {
   const accessToken = await getAccessToken(auth0Client);
 
-  axios.interceptors.request.use((config) => ({
-    ...config,
-    headers: { Authorization: `Bearer ${accessToken}` },
-  }));
+  axios.interceptors.request.use(function (config) {
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
+    return config;
+  });
 }
 
 export async function getAccessToken(

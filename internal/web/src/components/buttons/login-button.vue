@@ -5,7 +5,9 @@ const { loginWithRedirect } = useAuth0();
 
 const handleLogin = () => {
   loginWithRedirect({
-    prompt: "login",
+    authorizationParams: {
+      prompt: "login",
+    },
     appState: {
       target: "/gallery",
     },
