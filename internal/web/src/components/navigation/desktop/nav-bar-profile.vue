@@ -7,7 +7,9 @@ const { logout, user } = useAuth0();
 
 const handleLogout = () =>
   logout({
-    returnTo: window.location.origin,
+    logoutParams: {
+      returnTo: window.location.origin,
+    },
   });
 </script>
 

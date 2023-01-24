@@ -5,11 +5,13 @@ const { loginWithRedirect } = useAuth0();
 
 const handleSignUp = () => {
   loginWithRedirect({
-    prompt: "login",
+    authorizationParams: {
+      prompt: "login",
+      screen_hint: "signup",
+    },
     appState: {
       target: "/gallery",
     },
-    screen_hint: "signup",
   });
 };
 </script>
