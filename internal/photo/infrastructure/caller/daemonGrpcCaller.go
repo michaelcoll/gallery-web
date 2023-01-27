@@ -39,29 +39,29 @@ func New() *PhotoServiceGrpcCaller {
 	return &PhotoServiceGrpcCaller{}
 }
 
-func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon, page uint32, pageSize uint32) ([]*model.Photo, error) {
+func (c *PhotoServiceGrpcCaller) List(ctx context.Context, d *model.Daemon, offset uint32, limit uint32) ([]*model.Photo, uint32, error) {
 
 	client, conn, err := createClient(d)
 	if err != nil {
-		return nil, status.Errorf(codes.Unavailable, "can't connect to the daemon (%v)", err)
+		return nil, 0, status.Errorf(codes.Unavailable, "can't connect to the daemon (%v)", err)
 	}
 	defer closeConnection(conn)
 
 	photoResponse, err := client.GetPhotos(ctx, &photov1.GetPhotosRequest{
-		Page:     page,
-		PageSize: pageSize,
+		Offset: offset,
+		Limit:  limit,
 	})
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
-	photos := make([]*model.Photo, len(photoResponse.GetPhotos()))
+	photos := make([]*model.Photo, len(photoResponse.Photos))
 
-	for i, photo := range photoResponse.GetPhotos() {
+	for i, photo := range photoResponse.Photos {
 		photos[i] = toDomain(photo)
 	}
 
-	return photos, nil
+	return photos, photoResponse.Total, nil
 }
 
 func (c *PhotoServiceGrpcCaller) Exists(ctx context.Context, d *model.Daemon, hash string) (bool, error) {

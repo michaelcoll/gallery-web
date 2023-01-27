@@ -29,6 +29,7 @@ var statusMapping = map[codes.Code]int{
 	codes.InvalidArgument:  http.StatusBadRequest,
 	codes.Unavailable:      http.StatusServiceUnavailable,
 	codes.PermissionDenied: http.StatusForbidden,
+	codes.OutOfRange:       http.StatusRequestedRangeNotSatisfiable,
 }
 
 func handleError(ctx *gin.Context, err error) {
@@ -43,9 +44,12 @@ func handleError(ctx *gin.Context, err error) {
 
 func getStatus(err error) int {
 	st, _ := status.FromError(err)
-	httpStatus, exists := statusMapping[st.Code()]
 
-	if exists {
+	if httpStatus, exists := statusMapping[st.Code()]; exists {
+		return httpStatus
+	}
+
+	if httpStatus, ok := FromError(err); ok {
 		return httpStatus
 	}
 

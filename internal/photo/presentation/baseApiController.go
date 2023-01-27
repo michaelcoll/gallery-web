@@ -25,7 +25,6 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
-
 	"github.com/michaelcoll/gallery-web/internal/photo/domain/service"
 )
 
@@ -70,7 +69,7 @@ func (c *ApiController) Serve() {
 	mediaGroup.GET("/daemon/:id/thumbnail/:hash", c.thumbnailByHash)
 
 	// Listen and serve on 0.0.0.0:8080
-	fmt.Printf("%s Listening API on 0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))
+	fmt.Printf("%s Listening API on http://0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))
 	err := router.Run(apiPort)
 	if err != nil {
 		log.Fatalf("Error starting server : %v", err)
