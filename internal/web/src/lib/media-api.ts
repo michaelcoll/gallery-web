@@ -15,6 +15,7 @@
  */
 
 import type { Auth0VueClient } from "@auth0/auth0-vue/src/global";
+import { AxiosError, AxiosResponse } from "axios";
 
 import { getApi } from "@/lib/common-api";
 
@@ -29,17 +30,46 @@ export interface PhotoApi {
   fNumber: string | undefined;
 }
 
+export interface MediaListResponse {
+  photos: PhotoApi[];
+  total: number;
+}
+
 export async function getMediaList(
   auth0Client: Auth0VueClient,
   daemonId: string,
   page: number,
   pageSize: number
-): Promise<PhotoApi[]> {
+): Promise<MediaListResponse> {
+  const start = pageSize * page;
+  const end = pageSize * (page + 1) - 1;
+
   return getApi(auth0Client)
     .then((axiosInstance) =>
-      axiosInstance.get<PhotoApi[]>(
-        `/api/v1/daemon/${daemonId}/media?page=${page}&pageSize=${pageSize}`
-      )
+      axiosInstance.get<PhotoApi[]>(`/api/v1/daemon/${daemonId}/media`, {
+        headers: {
+          Range: `photo=${start}-${end}`,
+        },
+      })
     )
-    .then(({ data }) => data);
+    .then((res) => {
+      return mapResponse(res);
+    })
+    .catch((error: AxiosError) => {
+      if (error.response?.status != 416) {
+        return Promise.reject(error);
+      }
+    });
+}
+
+function mapResponse(
+  axiosResponse: AxiosResponse<PhotoApi[]>
+): MediaListResponse {
+  const contentRangeHeader = axiosResponse.headers["content-range"];
+  const split = contentRangeHeader.split("/");
+
+  return {
+    photos: axiosResponse.data,
+    total: parseInt(split[1]),
+  };
 }

@@ -30,8 +30,8 @@ func NewPhotoService(c PhotoServiceCaller) PhotoService {
 	return PhotoService{c: c}
 }
 
-func (s *PhotoService) List(ctx context.Context, daemon *model.Daemon, page uint32, pageSize uint32) ([]*model.Photo, error) {
-	return s.c.List(ctx, daemon, page, pageSize)
+func (s *PhotoService) List(ctx context.Context, daemon *model.Daemon, offset uint32, limit uint32) ([]*model.Photo, uint32, error) {
+	return s.c.List(ctx, daemon, offset, limit)
 }
 
 func (s *PhotoService) ContentByHash(ctx context.Context, daemon *model.Daemon, hash string) ([]byte, string, error) {

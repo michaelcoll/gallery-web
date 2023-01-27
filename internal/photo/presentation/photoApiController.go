@@ -17,11 +17,15 @@
 package presentation
 
 import (
+	"fmt"
 	"net/http"
+	"regexp"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
+
+var rangeRxp = regexp.MustCompile(`(?P<Unit>.*)=(?P<Start>[0-9]+)-(?P<End>[0-9]*)`)
 
 func (c *ApiController) mediaList(ctx *gin.Context) {
 	daemon, err := c.getDaemonById(ctx, true)
@@ -30,16 +34,54 @@ func (c *ApiController) mediaList(ctx *gin.Context) {
 		return
 	}
 
-	page, _ := strconv.Atoi(ctx.DefaultQuery("page", "0"))
-	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("pageSize", "25"))
-
-	photos, err := c.photoService.List(ctx.Request.Context(), daemon, uint32(page), uint32(pageSize))
+	start, end, err := extractRangeHeader(ctx.GetHeader("Range"))
 	if err != nil {
 		handleError(ctx, err)
 		return
 	}
 
+	photos, total, err := c.photoService.List(ctx.Request.Context(), daemon, uint32(start), uint32(end-start))
+	if err != nil {
+		handleError(ctx, err)
+		return
+	}
+
+	ctx.Header("Content-Range", fmt.Sprintf("%s %d-%d/%d", "photo", start, start+len(photos), total))
 	ctx.JSON(http.StatusOK, photos)
+}
+
+func extractRangeHeader(rangeHeader string) (int, int, error) {
+	r := rangeRxp.FindStringSubmatch(rangeHeader)
+	st := http.StatusRequestedRangeNotSatisfiable
+
+	if len(r) < 4 {
+		return 0, 0, Errorf(st, "Range is not valid, supported format : photo=0-25")
+	}
+
+	if r[1] != "photo" {
+		return 0, 0, Errorf(st, "Unit in range is not valid, supported unit : photo")
+	}
+
+	start, errStart := strconv.Atoi(r[2])
+	end, errEnd := strconv.Atoi(r[3])
+
+	if len(r[3]) == 0 {
+		end = 0
+	}
+
+	if errStart != nil {
+		return 0, 0, Errorf(st, "Start range is not valid")
+	}
+
+	if len(r[3]) != 0 && errEnd != nil {
+		return 0, 0, Errorf(st, "End range is not valid")
+	}
+
+	if end != 0 && start >= end {
+		return 0, 0, Errorf(st, "Range is not valid, start > end")
+	}
+
+	return start, end, nil
 }
 
 func (c *ApiController) contentByHash(ctx *gin.Context) {

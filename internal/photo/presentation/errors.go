@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Michaël COLL.
+ * Copyright (c) 2023 Michaël COLL.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,33 @@
  * limitations under the License.
  */
 
-package service
+package presentation
 
-import (
-	"context"
+import "fmt"
 
-	"github.com/michaelcoll/gallery-web/internal/photo/domain/model"
-)
+type HttpStatusError struct {
+	status  int
+	message string
+}
 
-type PhotoServiceCaller interface {
-	List(ctx context.Context, d *model.Daemon, page uint32, pageSize uint32) ([]*model.Photo, uint32, error)
-	Exists(ctx context.Context, d *model.Daemon, hash string) (bool, error)
-	ContentByHash(ctx context.Context, d *model.Daemon, hash string) ([]byte, string, error)
-	ThumbnailByHash(ctx context.Context, d *model.Daemon, hash string, width uint32, height uint32) ([]byte, string, error)
+func (e *HttpStatusError) HTTPStatus() int {
+	return e.status
+}
+
+func (e *HttpStatusError) Error() string {
+	return e.message
+}
+
+func Errorf(status int, format string, a ...interface{}) error {
+	return &HttpStatusError{status, fmt.Sprintf(format, a...)}
+}
+
+func FromError(err error) (int, bool) {
+	if se, ok := err.(interface {
+		HTTPStatus() int
+	}); ok {
+		return se.HTTPStatus(), true
+	}
+
+	return 0, false
 }

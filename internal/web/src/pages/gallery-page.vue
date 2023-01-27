@@ -14,32 +14,36 @@ import { useDaemonStore } from "@/stores/daemon";
 
 const imagesMap: Ref<Map<string, Array<GalleryImage>>> = ref(new Map());
 const currentPage = ref(0);
-const lastPage = ref(false);
+const lastSize = ref(0);
 const infiniteList = ref(null);
 const daemonStore = useDaemonStore();
 const auth0Client = useAuth0();
 
 const initGallery = async (auth0Client: Auth0VueClient, daemonId: string) => {
-  const photos = await getMediaList(auth0Client, daemonId, 0, 25);
+  const res = await getMediaList(auth0Client, daemonId, 0, 25);
+  lastSize.value = res.total;
 
-  updateImageMap(photos, imagesMap, daemonStore.id);
+  updateImageMap(res.photos, imagesMap, daemonStore.id);
 };
 
 const addPage = async () => {
+  if ((currentPage.value + 1) * 25 > lastSize.value) {
+    return;
+  }
+
   currentPage.value++;
 
-  const photos = await getMediaList(
+  const res = await getMediaList(
     auth0Client,
     daemonStore.id,
     currentPage.value,
     25
   );
 
-  if (photos.length > 0) {
-    updateImageMap(photos, imagesMap, daemonStore.id);
-  } else {
-    lastPage.value = true;
-    currentPage.value--;
+  lastSize.value = res.total;
+
+  if (res.photos?.length > 0) {
+    updateImageMap(res.photos, imagesMap, daemonStore.id);
   }
 };
 
@@ -53,10 +57,7 @@ onUnmounted(() => {
 
 const handleScroll = () => {
   let element = infiniteList.value;
-  if (
-    element?.getBoundingClientRect()?.bottom < window.innerHeight &&
-    !lastPage.value
-  ) {
+  if (element?.getBoundingClientRect()?.bottom < window.innerHeight) {
     addPage();
   }
 };

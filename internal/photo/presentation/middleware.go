@@ -42,8 +42,8 @@ func addCommonMiddlewares(group *gin.Engine) {
 	group.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:4040"},
 		AllowMethods:     []string{"GET"},
-		AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control"},
-		ExposeHeaders:    []string{"Content-Length"},
+		AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control", "Range"},
+		ExposeHeaders:    []string{"Content-Length", "Content-Range"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
