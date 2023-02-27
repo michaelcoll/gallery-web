@@ -13,7 +13,7 @@ require (
 	github.com/joeig/gin-cachecontrol v1.1.1
 	github.com/michaelcoll/gallery-proto v0.11.0
 	github.com/spf13/cobra v1.6.1
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 	google.golang.org/grpc v1.53.0
 )
 
