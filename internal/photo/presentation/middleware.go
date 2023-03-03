@@ -25,7 +25,6 @@ import (
 	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/auth0/go-jwt-middleware/v2/validator"
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	adapter "github.com/gwatts/gin-adapter"
 	"google.golang.org/grpc/codes"
@@ -49,7 +48,7 @@ func addCommonMiddlewares(group *gin.Engine) {
 	}))
 
 	// Gzip middleware
-	group.Use(gzip.Gzip(gzip.DefaultCompression))
+	//group.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	// Recovery middleware
 	group.Use(gin.Recovery())

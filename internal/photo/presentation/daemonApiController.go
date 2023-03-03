@@ -17,6 +17,8 @@
 package presentation
 
 import (
+	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -83,4 +85,24 @@ func (c *ApiController) getDaemonById(ctx *gin.Context, checkOwner bool) (*model
 	}
 
 	return daemon, nil
+}
+
+func (c *ApiController) streamEvents(ctx *gin.Context) {
+	v, ok := ctx.Get("clientChan")
+	if !ok {
+		return
+	}
+	clientChan, ok := v.(ClientChan)
+	if !ok {
+		return
+	}
+	ctx.Stream(func(w io.Writer) bool {
+		// Stream message to client from message channel
+		if msg, ok := <-clientChan; ok {
+			fmt.Printf("Sending message %s\n", msg)
+			ctx.SSEvent("message", msg)
+			return true
+		}
+		return false
+	})
 }

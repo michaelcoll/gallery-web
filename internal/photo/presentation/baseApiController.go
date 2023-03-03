@@ -59,10 +59,27 @@ func (c *ApiController) Serve() {
 		Immutable: true,
 	}))
 
+	// Initialize new streaming server
+	stream := NewServer()
+
+	// We are streaming current time to clients in the interval 10 seconds
+	go func() {
+		for {
+			time.Sleep(time.Second * 10)
+			now := time.Now().Format("2006-01-02 15:04:05")
+			currentTime := fmt.Sprintf("The Current Time Is %v", now)
+			fmt.Printf(currentTime + "\n")
+
+			// Send current time to clients message channel
+			stream.Message <- currentTime
+		}
+	}()
+
 	private.GET("/daemon", c.daemonList)
 	private.GET("/daemon/:id", c.daemonById)
 	private.GET("/daemon/:id/media", c.mediaList)
 
+	public.GET("/daemon/:id/stream", AddSSEHeadersMiddleware(), stream.handleClientConnectionMiddleware(), c.streamEvents)
 	public.GET("/daemon/:id/status", c.daemonStatusById)
 
 	mediaGroup.GET("/daemon/:id/media/:hash", c.contentByHash)
