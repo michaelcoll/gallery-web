@@ -49,11 +49,13 @@ func (c *ApiController) Serve() {
 	addCommonMiddlewares(router)
 
 	public := router.Group("/api/v1")
-	mediaGroup := router.Group("/api/v1")
+	publicMedia := router.Group("/api/v1")
 	private := router.Group("/api/v1")
+	sse := router.Group("/api/v1")
 
-	addJWTMiddlewares(private)
-	mediaGroup.Use(cachecontrol.New(&cachecontrol.Config{
+	addGzipMiddleware(public, publicMedia, private)
+	addJWTMiddleware(private, sse)
+	publicMedia.Use(cachecontrol.New(&cachecontrol.Config{
 		Public:    true,
 		MaxAge:    cachecontrol.Duration(7 * 24 * time.Hour),
 		Immutable: true,
@@ -68,7 +70,6 @@ func (c *ApiController) Serve() {
 			time.Sleep(time.Second * 10)
 			now := time.Now().Format("2006-01-02 15:04:05")
 			currentTime := fmt.Sprintf("The Current Time Is %v", now)
-			fmt.Printf(currentTime + "\n")
 
 			// Send current time to clients message channel
 			stream.Message <- currentTime
@@ -79,11 +80,11 @@ func (c *ApiController) Serve() {
 	private.GET("/daemon/:id", c.daemonById)
 	private.GET("/daemon/:id/media", c.mediaList)
 
-	public.GET("/daemon/:id/stream", AddSSEHeadersMiddleware(), stream.handleClientConnectionMiddleware(), c.streamEvents)
+	sse.GET("/daemon/:id/stream", AddSSEHeadersMiddleware(), stream.handleClientConnectionMiddleware(), c.streamEvents)
 	public.GET("/daemon/:id/status", c.daemonStatusById)
 
-	mediaGroup.GET("/daemon/:id/media/:hash", c.contentByHash)
-	mediaGroup.GET("/daemon/:id/thumbnail/:hash", c.thumbnailByHash)
+	publicMedia.GET("/daemon/:id/media/:hash", c.contentByHash)
+	publicMedia.GET("/daemon/:id/thumbnail/:hash", c.thumbnailByHash)
 
 	// Listen and serve on 0.0.0.0:8080
 	fmt.Printf("%s Listening API on http://0.0.0.0%s\n", color.GreenString("✓"), color.GreenString(apiPort))

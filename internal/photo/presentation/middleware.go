@@ -25,6 +25,7 @@ import (
 	"github.com/auth0/go-jwt-middleware/v2/jwks"
 	"github.com/auth0/go-jwt-middleware/v2/validator"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	adapter "github.com/gwatts/gin-adapter"
 	"google.golang.org/grpc/codes"
@@ -36,9 +37,10 @@ const (
 	auth0Audience  = "https://gallery-api/"
 )
 
-func addCommonMiddlewares(group *gin.Engine) {
+// addCommonMiddlewares adds CORS and recovery middlewares
+func addCommonMiddlewares(router *gin.Engine) {
 	// CORS middleware
-	group.Use(cors.New(cors.Config{
+	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:4040"},
 		AllowMethods:     []string{"GET"},
 		AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "Cache-Control", "Range"},
@@ -47,14 +49,17 @@ func addCommonMiddlewares(group *gin.Engine) {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// Gzip middleware
-	//group.Use(gzip.Gzip(gzip.DefaultCompression))
-
 	// Recovery middleware
-	group.Use(gin.Recovery())
+	router.Use(gin.Recovery())
 }
 
-func addJWTMiddlewares(group *gin.RouterGroup) {
+func addGzipMiddleware(groups ...*gin.RouterGroup) {
+	for _, group := range groups {
+		group.Use(gzip.Gzip(gzip.DefaultCompression))
+	}
+}
+
+func addJWTMiddleware(groups ...*gin.RouterGroup) {
 	issuerURL, _ := url.Parse(auth0IssuerUrl)
 
 	provider := jwks.NewCachingProvider(issuerURL, 5*time.Minute)
@@ -77,7 +82,10 @@ func addJWTMiddlewares(group *gin.RouterGroup) {
 				jwtmiddleware.ParameterTokenExtractor("access-token"),
 			)),
 		jwtmiddleware.WithValidateOnOptions(false))
-	group.Use(adapter.Wrap(jwtMiddleware.CheckJWT))
+
+	for _, group := range groups {
+		group.Use(adapter.Wrap(jwtMiddleware.CheckJWT))
+	}
 }
 
 // EmailCustomClaims contains custom data we want from the token.
