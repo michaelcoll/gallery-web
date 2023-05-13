@@ -14,7 +14,7 @@ dep-upgrade-prepare:
 
 dep-upgrade-go:
 	go get -u
-	go mod tidy -go -e
+	go mod tidy
 
 dep-upgrade-node:
 	cd internal/web \
