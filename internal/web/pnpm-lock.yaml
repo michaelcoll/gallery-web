@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@auth0/auth0-vue':
     specifier: ^2.2.0
-    version: 2.2.0(vue-router@4.2.2)
+    version: 2.2.0(vue-router@4.2.3)
   '@heroicons/vue':
     specifier: ^2.0.18
     version: 2.0.18(vue@3.3.4)
@@ -36,8 +36,8 @@ dependencies:
     specifier: ^3.3.4
     version: 3.3.4
   vue-router:
-    specifier: ^4.2.2
-    version: 4.2.2(vue@3.3.4)
+    specifier: ^4.2.3
+    version: 4.2.3(vue@3.3.4)
   vue-spinner:
     specifier: ^1.0.4
     version: 1.0.4
@@ -122,7 +122,7 @@ packages:
     resolution: {integrity: sha512-iQ22AZCqOMG0q8/YPkvT4lGe2gsaopZ2kZb2cIBa7w+0hhGJhl6ANpFI6FzAKMzGRGmVocKxYdHha7lxAhbyPA==}
     dev: false
 
-  /@auth0/auth0-vue@2.2.0(vue-router@4.2.2):
+  /@auth0/auth0-vue@2.2.0(vue-router@4.2.3):
     resolution: {integrity: sha512-a8kNj9wF/hJFD/izAZojOTNlny/sq3qvuV8KLUreoQ92uMQBYiHtuclVHbRqoYxl2bwCtFJccttEmyYW3gzHDA==}
     peerDependencies:
       vue-router: ^4.0.12
@@ -132,7 +132,7 @@ packages:
     dependencies:
       '@auth0/auth0-spa-js': 2.0.7
       vue: 3.3.4
-      vue-router: 4.2.2(vue@3.3.4)
+      vue-router: 4.2.3(vue@3.3.4)
     dev: false
 
   /@babel/helper-string-parser@7.21.5:
@@ -3338,8 +3338,8 @@ packages:
       - supports-color
     dev: true
 
-  /vue-router@4.2.2(vue@3.3.4):
-    resolution: {integrity: sha512-cChBPPmAflgBGmy3tBsjeoe3f3VOSG6naKyY5pjtrqLGbNEXdzCigFUHgBvp9e3ysAtFtEx7OLqcSDh/1Cq2TQ==}
+  /vue-router@4.2.3(vue@3.3.4):
+    resolution: {integrity: sha512-ynQ/edCZNUC/9koONOSgxGJbEBXZ1nUA0lKI3xTiOd3Ywe4QRCf2q8pGCG1v5ovdzPggoq3M09FxNCZTM9pZfw==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
