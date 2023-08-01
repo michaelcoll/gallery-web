@@ -22,7 +22,7 @@ app
       },
       cacheLocation: "localstorage",
       useRefreshTokens: true,
-    })
+    }),
   )
   .use(pinia)
   .mount("#root");

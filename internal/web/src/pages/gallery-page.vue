@@ -37,7 +37,7 @@ const addPage = async () => {
     auth0Client,
     daemonStore.id,
     currentPage.value,
-    25
+    25,
   );
 
   lastSize.value = res.total;

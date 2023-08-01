@@ -25,7 +25,7 @@ const intervalId = ref();
 
 export async function registerWatcher(
   auth0Client: Auth0VueClient,
-  daemonStore: DaemonStore
+  daemonStore: DaemonStore,
 ) {
   const isAlive = await daemonIsAlive(daemonStore.id);
   if ((daemonStore.active && !isAlive) || !daemonStore.active) {
@@ -43,7 +43,7 @@ export function unregisterWatcher() {
 
 async function testDaemonIsAlive(
   auth0Client: Auth0VueClient,
-  daemonStore: DaemonStore
+  daemonStore: DaemonStore,
 ) {
   if (daemonStore.active) {
     const isAlive = await daemonIsAlive(daemonStore.id);
@@ -59,7 +59,7 @@ async function testDaemonIsAlive(
 
 async function tryGetNewDaemon(
   auth0Client: Auth0VueClient,
-  daemonStore: DaemonStore
+  daemonStore: DaemonStore,
 ) {
   const daemons = await getDaemonList(auth0Client);
 
@@ -71,7 +71,7 @@ async function tryGetNewDaemon(
           daemon.id,
           daemon.name,
           daemon.hostname + ":" + daemon.port,
-          daemon.version
+          daemon.version,
         );
       }
     });
@@ -83,7 +83,7 @@ function useDaemon(
   id: string,
   name: string,
   hostname: string,
-  version: string
+  version: string,
 ) {
   store.id = id;
   store.name = name;

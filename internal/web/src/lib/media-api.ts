@@ -39,7 +39,7 @@ export async function getMediaList(
   auth0Client: Auth0VueClient,
   daemonId: string,
   page: number,
-  pageSize: number
+  pageSize: number,
 ): Promise<MediaListResponse> {
   const start = pageSize * page;
   const end = pageSize * (page + 1) - 1;
@@ -50,7 +50,7 @@ export async function getMediaList(
         headers: {
           Range: `photo=${start}-${end}`,
         },
-      })
+      }),
     )
     .then((res) => {
       return mapResponse(res);
@@ -63,7 +63,7 @@ export async function getMediaList(
 }
 
 function mapResponse(
-  axiosResponse: AxiosResponse<PhotoApi[]>
+  axiosResponse: AxiosResponse<PhotoApi[]>,
 ): MediaListResponse {
   const contentRangeHeader = axiosResponse.headers["content-range"];
   const split = contentRangeHeader.split("/");

@@ -25,7 +25,7 @@ export class ApiError extends Error {}
 export class InternalServerApiError extends ApiError {}
 
 export async function getApi(
-  auth0Client: Auth0VueClient | undefined = undefined
+  auth0Client: Auth0VueClient | undefined = undefined,
 ): Promise<AxiosInstance> {
   const axios = AxiosStatic.create({
     baseURL: `${apiServerUrl}`,
@@ -42,7 +42,7 @@ export async function getApi(
 
 export async function useAuthBearerToken(
   axios: AxiosInstance,
-  auth0Client: Auth0VueClient
+  auth0Client: Auth0VueClient,
 ): Promise<void> {
   const accessToken = await getAccessToken(auth0Client);
 
@@ -53,7 +53,7 @@ export async function useAuthBearerToken(
 }
 
 export async function getAccessToken(
-  auth0Client: Auth0VueClient
+  auth0Client: Auth0VueClient,
 ): Promise<string> {
   const { getAccessTokenSilently } = auth0Client;
   return await getAccessTokenSilently();
@@ -75,6 +75,6 @@ function handleErrorOnReject(axios: AxiosInstance): void {
 
   axios.interceptors.response.use(
     (response) => response,
-    (error) => Promise.reject(handleError(error))
+    (error) => Promise.reject(handleError(error)),
   );
 }
