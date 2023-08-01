@@ -32,7 +32,7 @@ export interface GalleryImage {
 export function updateImageMap(
   photos: PhotoApi[],
   imagesMap: Ref<Map<string, Array<GalleryImage>>>,
-  daemonId: string
+  daemonId: string,
 ) {
   if (photos) {
     for (const photo of photos) {
@@ -53,7 +53,7 @@ export function updateImageMap(
 function buildImage(
   photo: PhotoApi,
   daemonId: string,
-  date: dayjs.Dayjs
+  date: dayjs.Dayjs,
 ): GalleryImage {
   return mapGalleryImage(photo, daemonId, date);
 }
@@ -61,7 +61,7 @@ function buildImage(
 function mapGalleryImage(
   photo: PhotoApi,
   daemonId: string,
-  date: dayjs.Dayjs
+  date: dayjs.Dayjs,
 ): GalleryImage {
   return {
     largeURL: `${apiServerUrl}/api/v1/daemon/${daemonId}/media/${photo.hash}`,

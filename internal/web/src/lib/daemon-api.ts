@@ -30,11 +30,11 @@ interface DaemonInfoApi {
 }
 
 export async function getDaemonList(
-  auth0Client: Auth0VueClient
+  auth0Client: Auth0VueClient,
 ): Promise<DaemonInfoApi[]> {
   return getApi(auth0Client)
     .then((axiosInstance) =>
-      axiosInstance.get<DaemonInfoApi[]>(`/api/v1/daemon`)
+      axiosInstance.get<DaemonInfoApi[]>(`/api/v1/daemon`),
     )
     .then(({ data }) => data);
 }
@@ -46,7 +46,7 @@ export async function daemonIsAlive(daemonId: string): Promise<boolean> {
 
   return getApi()
     .then((axiosInstance) =>
-      axiosInstance.get<DaemonInfoApi[]>(`/api/v1/daemon/${daemonId}/status`)
+      axiosInstance.get<DaemonInfoApi[]>(`/api/v1/daemon/${daemonId}/status`),
     )
     .then(() => true)
     .catch(() => false);
