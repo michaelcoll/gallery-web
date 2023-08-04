@@ -14,7 +14,7 @@
     "@auth0/auth0-vue": "^2.3.0",
     "@heroicons/vue": "^2.0.18",
     "axios": "^1.4.0",
-    "daisyui": "^3.5.0",
+    "daisyui": "^3.5.1",
     "dayjs": "^1.11.9",
     "photoswipe": "^5.3.8",
     "photoswipe-dynamic-caption-plugin": "^1.2.7",
