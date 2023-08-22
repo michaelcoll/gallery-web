@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@auth0/auth0-vue':
-    specifier: ^2.3.0
-    version: 2.3.0(vue-router@4.2.4)
+    specifier: ^2.3.1
+    version: 2.3.1(vue-router@4.2.4)
   '@heroicons/vue':
     specifier: ^2.0.18
     version: 2.0.18(vue@3.3.4)
@@ -118,19 +118,19 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  /@auth0/auth0-spa-js@2.1.1:
-    resolution: {integrity: sha512-21qEf5Bjouy76CWd1gQgf/tT6iD513YFYaK0+3OF1nbwLtPFpxm5Ln94M7SCVFKfe5jbchWuEcIb1HLer3r6RA==}
+  /@auth0/auth0-spa-js@2.1.2:
+    resolution: {integrity: sha512-xdA65Z/U7++Y7L9Uwh8Q8OVOs6qgFz+fb7GAzHFjpr1icO37B//xdzLXm7ZRgA19RWrsNe1nme3h896igJSvvw==}
     dev: false
 
-  /@auth0/auth0-vue@2.3.0(vue-router@4.2.4):
-    resolution: {integrity: sha512-qg+Cmoem/MOpXfR4cdBdvvqukzzjh3mIO7hcBlmjJdjORiSKvHhCmgO4FVx0IVeFPpI4RLGvD1uR7DWT31h1bg==}
+  /@auth0/auth0-vue@2.3.1(vue-router@4.2.4):
+    resolution: {integrity: sha512-eTWwBToVRxM9r/zTuHFn+se2d0qYvgdzq62ZPUCzm2Q/Ms964EpW9ZTYbmsF7afKVVaLVACsysOwyh/N4usV6Q==}
     peerDependencies:
       vue-router: ^4.0.12
     peerDependenciesMeta:
       vue-router:
         optional: true
     dependencies:
-      '@auth0/auth0-spa-js': 2.1.1
+      '@auth0/auth0-spa-js': 2.1.2
       vue: 3.3.4
       vue-router: 4.2.4(vue@3.3.4)
     dev: false
