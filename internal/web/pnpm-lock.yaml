@@ -21,8 +21,8 @@ dependencies:
     specifier: ^1.11.9
     version: 1.11.9
   photoswipe:
-    specifier: ^5.3.8
-    version: 5.3.8
+    specifier: ^5.3.9
+    version: 5.3.9
   photoswipe-dynamic-caption-plugin:
     specifier: ^1.2.7
     version: 1.2.7
@@ -2734,8 +2734,8 @@ packages:
     resolution: {integrity: sha512-5XXdXLf2381nwe7KqQvcyStiUBi9TitYXppUQTrzPwYAi4lZsmWNnNKMclM7I4QGlX6fXo42v3bgb6rlK9pY1Q==}
     dev: false
 
-  /photoswipe@5.3.8:
-    resolution: {integrity: sha512-4vTzOQt8GP4Chsm0s+8j2xDtVHAEN252PxrU12A1zXauNn0zD5HRHgjALKO2GKTyBnTnOrJUOxbV8LTrFIMrYw==}
+  /photoswipe@5.3.9:
+    resolution: {integrity: sha512-z9ACLW9472gAawrIXXiliuz9xNZ3xEl7cIPHqY/lAeFQT9X+N9sgCwa86WK9wnK8cuk/F3QEO45n+QSiZnKd2A==}
     engines: {node: '>= 0.12.0'}
     dev: false
 
