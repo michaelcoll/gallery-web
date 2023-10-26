@@ -13,7 +13,7 @@
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.1",
     "@heroicons/vue": "^2.0.18",
-    "axios": "^1.5.1",
+    "axios": "^1.6.0",
     "daisyui": "^3.9.3",
     "dayjs": "^1.11.10",
     "photoswipe": "^5.4.2",
