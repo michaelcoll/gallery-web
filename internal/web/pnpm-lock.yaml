@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@auth0/auth0-vue':
-    specifier: ^2.3.1
-    version: 2.3.1(typescript@5.2.2)(vue-router@4.2.5)
+    specifier: ^2.3.2
+    version: 2.3.2(typescript@5.2.2)(vue-router@4.2.5)
   '@heroicons/vue':
     specifier: ^2.0.18
     version: 2.0.18(vue@3.3.7)
@@ -122,8 +122,8 @@ packages:
     resolution: {integrity: sha512-xdA65Z/U7++Y7L9Uwh8Q8OVOs6qgFz+fb7GAzHFjpr1icO37B//xdzLXm7ZRgA19RWrsNe1nme3h896igJSvvw==}
     dev: false
 
-  /@auth0/auth0-vue@2.3.1(typescript@5.2.2)(vue-router@4.2.5):
-    resolution: {integrity: sha512-eTWwBToVRxM9r/zTuHFn+se2d0qYvgdzq62ZPUCzm2Q/Ms964EpW9ZTYbmsF7afKVVaLVACsysOwyh/N4usV6Q==}
+  /@auth0/auth0-vue@2.3.2(typescript@5.2.2)(vue-router@4.2.5):
+    resolution: {integrity: sha512-HV53tLzT6yfRmbfp0pm7BG54i7fm1nIfj8mTd0HrhZP028fuxtyTPN9p+CY7uRvOm12aAxPZXdJlZ8/TVpxmPA==}
     peerDependencies:
       vue-router: ^4.0.12
     peerDependenciesMeta:
