@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.3",
-    "@heroicons/vue": "^2.0.18",
+    "@heroicons/vue": "^2.1.1",
     "axios": "^1.6.2",
     "daisyui": "^4.4.20",
     "dayjs": "^1.11.10",

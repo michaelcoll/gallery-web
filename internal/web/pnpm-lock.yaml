@@ -9,8 +9,8 @@ dependencies:
     specifier: ^2.3.3
     version: 2.3.3(typescript@5.3.3)(vue-router@4.2.5)
   '@heroicons/vue':
-    specifier: ^2.0.18
-    version: 2.0.18(vue@3.3.11)
+    specifier: ^2.1.1
+    version: 2.1.1(vue@3.3.11)
   axios:
     specifier: ^1.6.2
     version: 1.6.2
@@ -396,8 +396,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@heroicons/vue@2.0.18(vue@3.3.11):
-    resolution: {integrity: sha512-BcTC9nq2TkwNSfQuqo96J7ehx4etezypc2YeTq7KsXWxrcrerhkgjLrxGRBnStN0wrXo0Gv4BInybqz5uBG6Cw==}
+  /@heroicons/vue@2.1.1(vue@3.3.11):
+    resolution: {integrity: sha512-Yi5nh/89L193ALgHyJUQUdNLsKXPrrE3yj5yiR8WAlo7nZyXGxGauQcEAmBsa2XJGMhBMuEdoOiuZ8wEwTBxVQ==}
     peerDependencies:
       vue: '>= 3'
     dependencies:
