@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/auth0/go-jwt-middleware/v2 v2.2.1
 	github.com/fatih/color v1.16.0
-	github.com/gin-contrib/cors v1.6.0
+	github.com/gin-contrib/cors v1.7.0
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/uuid v1.6.0
