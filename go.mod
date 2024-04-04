@@ -6,7 +6,7 @@ require (
 	github.com/auth0/go-jwt-middleware/v2 v2.2.1
 	github.com/fatih/color v1.16.0
 	github.com/gin-contrib/cors v1.7.1
-	github.com/gin-contrib/gzip v0.0.6
+	github.com/gin-contrib/gzip v1.0.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/uuid v1.6.0
 	github.com/gwatts/gin-adapter v1.0.0
@@ -31,6 +31,7 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
+	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
