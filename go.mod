@@ -11,7 +11,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/gwatts/gin-adapter v1.0.0
 	github.com/joeig/gin-cachecontrol v1.1.1
-	github.com/michaelcoll/gallery-proto v0.11.0
+	github.com/michaelcoll/gallery-proto v0.11.1
 	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.9.0
 	google.golang.org/grpc v1.63.2
