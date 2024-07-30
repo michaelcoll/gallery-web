@@ -44,8 +44,8 @@ dependencies:
 
 devDependencies:
   '@rushstack/eslint-patch':
-    specifier: ^1.10.3
-    version: 1.10.3
+    specifier: ^1.10.4
+    version: 1.10.4
   '@types/jsdom':
     specifier: ^21.1.7
     version: 21.1.7
@@ -614,8 +614,8 @@ packages:
     dev: true
     optional: true
 
-  /@rushstack/eslint-patch@1.10.3:
-    resolution: {integrity: sha512-qC/xYId4NMebE6w/V33Fh9gWxLgURiNYgVNObbJl2LZv0GUUItCcCqC5axQSwRaAgaxl2mELq1rMzlswaQ0Zxg==}
+  /@rushstack/eslint-patch@1.10.4:
+    resolution: {integrity: sha512-WJgX9nzTqknM393q1QJDJmoW28kUfEnybeTfVNcNAPnIx210RXm2DiXiHzfNPJNIUUb1tJnz/l4QGtJ30PgWmA==}
     dev: true
 
   /@sinclair/typebox@0.27.8:
