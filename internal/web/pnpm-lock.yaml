@@ -50,8 +50,8 @@ devDependencies:
     specifier: ^21.1.7
     version: 21.1.7
   '@types/node':
-    specifier: ^20.14.11
-    version: 20.14.11
+    specifier: ^22.2.0
+    version: 22.2.0
   '@vitejs/plugin-vue':
     specifier: ^5.1.2
     version: 5.1.2(vite@5.4.0)(vue@3.4.37)
@@ -99,10 +99,10 @@ devDependencies:
     version: 5.5.4
   vite:
     specifier: ^5.4.0
-    version: 5.4.0(@types/node@20.14.11)
+    version: 5.4.0(@types/node@22.2.0)
   vitest:
     specifier: ^1.6.0
-    version: 1.6.0(@types/node@20.14.11)(jsdom@24.1.1)
+    version: 1.6.0(@types/node@22.2.0)(jsdom@24.1.1)
   vue-tsc:
     specifier: ^2.0.29
     version: 2.0.29(typescript@5.5.4)
@@ -644,6 +644,12 @@ packages:
       undici-types: 5.26.5
     dev: true
 
+  /@types/node@22.2.0:
+    resolution: {integrity: sha512-bm6EG6/pCpkxDf/0gDNDdtDILMOHgaQBVOJGdwsqClnxA3xL6jtMv76rLBc006RVMWbmaf0xbmom4Z/5o2nRkQ==}
+    dependencies:
+      undici-types: 6.13.0
+    dev: true
+
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
     dev: true
@@ -795,7 +801,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.4.0(@types/node@20.14.11)
+      vite: 5.4.0(@types/node@22.2.0)
       vue: 3.4.37(typescript@5.5.4)
     dev: true
 
@@ -3637,6 +3643,10 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
 
+  /undici-types@6.13.0:
+    resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
+    dev: true
+
   /universalify@0.2.0:
     resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==}
     engines: {node: '>= 4.0.0'}
@@ -3686,7 +3696,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-node@1.6.0(@types/node@20.14.11):
+  /vite-node@1.6.0(@types/node@22.2.0):
     resolution: {integrity: sha512-de6HJgzC+TFzOu0NTC4RAIsyf/DY/ibWDYQUcuEA84EMHhcefTUGkjFHKKEJhQN4A+6I0u++kr3l36ZF2d7XRw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3695,7 +3705,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.1
       picocolors: 1.0.1
-      vite: 5.4.0(@types/node@20.14.11)
+      vite: 5.4.0(@types/node@22.2.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3708,7 +3718,7 @@ packages:
       - terser
     dev: true
 
-  /vite@5.4.0(@types/node@20.14.11):
+  /vite@5.4.0(@types/node@22.2.0):
     resolution: {integrity: sha512-5xokfMX0PIiwCMCMb9ZJcMyh5wbBun0zUzKib+L65vAZ8GY9ePZMXxFrHbr/Kyll2+LSCY7xtERPpxkBDKngwg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3739,7 +3749,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.14.11
+      '@types/node': 22.2.0
       esbuild: 0.21.5
       postcss: 8.4.41
       rollup: 4.13.0
@@ -3747,7 +3757,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@1.6.0(@types/node@20.14.11)(jsdom@24.1.1):
+  /vitest@1.6.0(@types/node@22.2.0)(jsdom@24.1.1):
     resolution: {integrity: sha512-H5r/dN06swuFnzNFhq/dnz37bPXnq8xB2xB5JOVk8K09rUtoeNN+LHWkoQ0A/i3hvbUKKcCei9KpbxqHMLhLLA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3772,7 +3782,7 @@ packages:
       jsdom:
         optional: true
     dependencies:
-      '@types/node': 20.14.11
+      '@types/node': 22.2.0
       '@vitest/expect': 1.6.0
       '@vitest/runner': 1.6.0
       '@vitest/snapshot': 1.6.0
@@ -3791,8 +3801,8 @@ packages:
       strip-literal: 2.0.0
       tinybench: 2.5.1
       tinypool: 0.8.3
-      vite: 5.4.0(@types/node@20.14.11)
-      vite-node: 1.6.0(@types/node@20.14.11)
+      vite: 5.4.0(@types/node@22.2.0)
+      vite-node: 1.6.0(@types/node@22.2.0)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
