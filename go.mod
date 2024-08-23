@@ -3,7 +3,7 @@ module github.com/michaelcoll/gallery-web
 go 1.20
 
 require (
-	github.com/auth0/go-jwt-middleware/v2 v2.2.1
+	github.com/auth0/go-jwt-middleware/v2 v2.2.2
 	github.com/fatih/color v1.17.0
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-contrib/gzip v1.0.1
@@ -46,11 +46,11 @@ require (
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240528184218-531527333157 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
-	gopkg.in/go-jose/go-jose.v2 v2.6.2 // indirect
+	gopkg.in/go-jose/go-jose.v2 v2.6.3 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
